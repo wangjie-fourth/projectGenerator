@@ -44,10 +44,8 @@ import java.util.Properties;
 public class DeYiProjectGeneratorServiceImpl implements ProjectGeneratorService {
 
     private final ConfigJson configJson;
-
     private static SqlSessionFactory sqlSessionFactory;
     private static final VelocityContext context;
-
     private static String packagePrefix;
 
     static {

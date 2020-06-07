@@ -2,6 +2,8 @@ package com.wangjie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.CaseFormat;
+import com.wangjie.mapper.ColumnMapper;
+import com.wangjie.mapper.TableMapper;
 import com.wangjie.model.config.ConfigJson;
 import com.wangjie.model.config.Table;
 import com.wangjie.service.ProjectGeneratorService;
@@ -9,9 +11,18 @@ import com.wangjie.service.dto.JavaDTO;
 import com.wangjie.service.impl.DeYiProjectGeneratorServiceImpl;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.io.IOUtils;
+import org.apache.ibatis.datasource.pooled.PooledDataSource;
+import org.apache.ibatis.mapping.Environment;
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.ibatis.transaction.TransactionFactory;
+import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Mojo;
 
+import javax.sql.DataSource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,6 +44,28 @@ public class GeneratorMojo extends AbstractMojo {
     // 定义jackson对象
     private static final ObjectMapper MAPPER = new ObjectMapper();
     public static String projectDirector = "";
+
+
+    private String getTableNote(String tableName, ConfigJson configJson) {
+        DataSource dataSource = null;
+        dataSource = new PooledDataSource("com.mysql.cj.jdbc.Driver",
+                configJson.getJdbc().getUrl(),
+                configJson.getJdbc().getUsername(),
+                configJson.getJdbc().getPassword());
+
+        TransactionFactory transactionFactory = new JdbcTransactionFactory();
+        Environment environment = new Environment("development", transactionFactory, dataSource);
+        Configuration configuration = new Configuration(environment);
+        configuration.addMapper(TableMapper.class);
+        configuration.addMapper(ColumnMapper.class);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            TableMapper tableMapper = session.getMapper(TableMapper.class);
+            com.wangjie.model.db.Table table = tableMapper.queryTable(tableName);
+            return table.getTableComment();
+        }
+    }
 
 
     public void execute() {
@@ -59,12 +92,12 @@ public class GeneratorMojo extends AbstractMojo {
             getLog().info("无需要生成的表信息");
         } else {
             for (Table table : configJson.getTables()) {
-                String paramClass = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, "table_info");
+                String paramClass = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, table.getTableName());
                 String className = Character.toUpperCase(paramClass.charAt(0)) + paramClass.substring(1);
                 JavaDTO javaDTO = JavaDTO.builder()
                         .paramName(paramClass)
                         .className(className)
-                        .note("test")
+                        .note(this.getTableNote(table.getTableName(), configJson))
                         .author(configJson.getAuthor())
                         .email(configJson.getEmail())
                         .dateTime(new Date())
