@@ -1,0 +1,48 @@
+package ${java.packagePrefix}.mapper;
+
+import ${java.packagePrefix}.bean.db.${java.className};
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+/**
+ * @ClassName ${java.className}Mapper
+ * @Description ${java.note}数据接口
+ * @Author ${java.author}
+ * @Date ${java.dateTime}
+ * @Email ${java.email}
+ **/
+@Mapper
+@Repository
+public interface ${java.className}Mapper  {
+    /**
+     * 分页查询数据
+     */
+    List<${java.className}> listByPage(${java.className}DTO ${java.paramName}DTO);
+
+    /**
+     * 根据id更新数据
+     */
+    int updateSelectiveById(${java.className} ${java.paramName});
+
+    /**
+     * 根据id查询
+     */
+    ${java.className} selectById(Long id);
+
+    /**
+     * 新增非空属性数据
+     */
+    int insertSelective(${java.className} ${java.paramName});
+
+    /**
+     * 查询符合条件的数据个数
+     */
+    int countBySelective(${java.className} ${java.paramName});
+
+    /**
+     * 获取符合条件的数据
+     */
+    List<${java.className}> selectBySelective(${java.className} ${java.paramName});
+
+
+}
+

@@ -1,0 +1,21 @@
+package ${java.packagePrefix}.manager;
+
+import org.springframework.stereotype.Service;
+import ${java.packagePrefix}.mapper.${java.className}Mapper;
+import lombok.extern.slf4j.Slf4j;
+import javax.annotation.Resource;
+
+/**
+ * @ClassName ${java.className}Manager
+ * @Description ${java.note}管理接口
+ * @Author ${java.author}
+ * @Date ${java.dateTime}
+ * @Email ${java.email}
+ **/
+@Service
+@Slf4j
+public class ${java.className}Manager {
+    @Resource
+    private ${java.className}Mapper ${java.paramName}Mapper;
+
+}

@@ -1,0 +1,34 @@
+package ${java.packagePrefix}.bean.db;
+
+import cn.victorplus.car.base.bean.base.DbEntity;
+import lombok.*;
+
+
+/**
+ * @ClassName ${java.className}模型类
+ * @Description ${java.note}管理接口
+ * @Author ${java.author}
+ * @Date ${java.dateTime}
+ * @Email ${java.email}
+ **/
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
+public class ${java.className} extends DbEntity {
+    //
+    // 数据库字段
+    // ------------------------------------------------------------------------------
+#foreach( $attr in $attrs )
+#if ($attr.generator)
+    /**
+     * $attr.attrNote
+     */
+    private $attr.attrType $attr.attrName;
+#end
+#end
+
+
+}

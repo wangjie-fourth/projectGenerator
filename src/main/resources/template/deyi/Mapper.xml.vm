@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="${java.packagePrefix}.mapper.${java.className}Mapper">
+
+    <resultMap id="BaseResultMap" type="${java.packagePrefix}.bean.db.${java.className}">
+        #foreach($attr in $attrs)
+            #if ($attr.isPK)
+        <id column="${attr.columnName}" property="${attr.attrName}" jdbcType="${attr.jdbcType}"/>
+            #else
+        <result column="${attr.columnName}" property="${attr.attrName}" jdbcType="${attr.jdbcType}"/>
+            #end
+        #end
+    </resultMap>
+
+    <select id="listByPage" resultMap="BaseResultMap" parameterType="${java.packagePrefix}.bean.dto.${java.className}DTO">
+        SELECT
+        #foreach($attr in $java.attrs)
+            ${attr.columnName},
+        #end
+        FROM
+            `${java.tableName}` a
+        <where>
+            a.is_delete = 0
+            #foreach($attr in $attrs)
+            <if test="${attr.attrName} != null">
+                ${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}},
+            </if>
+            #end
+            <if test="batchQueryList !=null and batchQueryList.size >0">
+                AND 批量查询字段 in
+                <foreach collection="batchQueryList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <update id="updateSelectiveById" parameterType="${java.packagePrefix}.bean.db.${java.className}">
+        UPDATE `${java.tableName}`
+        <set>
+            #foreach($attr in $attrs)
+                #if ($attr.isPK == false)
+            <if test="${attr.attrName} != null">
+                ${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}},
+            </if>
+                #end
+            #end
+        </set>
+        #foreach($attr in $java.attrs)
+        #if ($attr.isPK)
+        where ${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
+        #end
+        #end
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT
+        #foreach($attr in $java.attrs)
+        a.${attr.columnName},
+        #end
+        FROM
+            `${java.tableName}` a
+        #foreach($attr in $java.attrs)
+        #if ($attr.isPK)
+        where ${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
+        #end
+        #end
+    </select>
+    
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="${java.packagePrefix}.bean.db.${java.className}">
+        INSERT INTO `${java.tableName}`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #foreach($attr in $java.attrs)
+                <if test="${attr.attrName} !=null">
+                    ${attr.columnName},
+                </if>
+            #end
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #foreach($attr in $java.attrs)
+                <if test="${attr.attrName} !=null">
+                    #{${attr.attrName},jdbcType=${attr.jdbcType}},
+                </if>
+            #end
+        </trim>
+    </insert>
+
+    <select id="countBySelective" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+        FROM
+            `${java.tableName}`
+        <where>
+        #foreach($attr in $java.attrs)
+            <if test="${attr.attrName} !=null">
+                AND ${attr.columnName} = #{${attr.attrName}}
+            </if>
+        #end
+        </where>
+    </select>
+
+    <select id="selectBySelective" resultMap="BaseResultMap">
+        SELECT
+        #foreach($attr in $java.attrs)
+            ${attr.columnName},
+        #end
+        FROM
+        `${java.tableName}` a
+        <where>
+            #foreach($attr in $attrs)
+                <if test="${attr.attrName} != null">
+                    ${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}},
+                </if>
+            #end
+        </where>
+    </select>
+</mapper>

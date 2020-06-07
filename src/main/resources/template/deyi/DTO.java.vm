@@ -1,0 +1,38 @@
+package ${java.packagePrefix}.bean.dto;
+
+import lombok.*;
+import cn.victorplus.car.base.bean.base.page.Pagination;
+import ${java.packagePrefix}.bean.db.${java.className};
+
+
+/**
+ * @ClassName ${java.className}模型类
+ * @Description ${java.note}管理接口
+ * @Author ${java.author}
+ * @Date ${java.dateTime}
+ * @Email ${java.email}
+ **/
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
+public class ${java.className}DTO extends ${java.className} {
+
+    /**
+     * 批量查询参数
+     */
+    private List<String> batchQueryList;
+
+    /**
+     * 分页信息
+     */
+    private Pagination pagination;
+
+    /**
+     * 列表数据
+     */
+    private List<${java.className}DTO> ${java.paramName}DTOList;
+
+}

@@ -1,0 +1,39 @@
+package ${java.packagePrefix}.web.controller;
+
+import java.util.List;
+import ${java.packagePrefix}.service.${java.className}Service;
+import cn.victorplus.car.base.bean.dto.RespDTO;
+import org.springframework.web.bind.annotation.*;
+import javax.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import cn.victorplus.car.base.bean.dto.RespDTO;
+
+
+/**
+ * @ClassName ${java.className}Controller
+ * @Description ${java.note} 管理 API
+ * @Author ${java.author}
+ * @Date ${java.dateTime}
+ * @Email ${java.email}
+ **/
+@RestController
+@RequestMapping("/web/${java.paramName}")
+@Slf4j
+public class ${java.className}Controller {
+
+    @Resource
+    private ${java.className}Service ${java.paramName}Service;
+
+    @PostMapping("/list")
+    public RespDTO<?> list(@RequestBody ${java.className}DTO ${java.paramName}DTO){
+        List<${java.className}DTO> data = ${java.paramName}Service.listByPage(${java.paramName}DTO);
+        return RespDTO.success(data);
+    }
+
+    @PostMapping("/batch-query")
+    public RespDTO<?> batchQuery(@RequestBody ${java.className}DTO ${java.paramName}DTO){
+        ${java.paramName}DTO data = ${java.paramName}Service.batchQuery(${java.paramName}DTO);
+        return RespDTO.success(data);
+    }
+
+}
