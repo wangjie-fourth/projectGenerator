@@ -6,7 +6,7 @@ import lombok.*;
 
 /**
  * @ClassName ${java.className}模型类
- * @Description ${java.note}管理接口
+ * @Description ${java.note}
  * @Author ${java.author}
  * @Date ${java.dateTime}
  * @Email ${java.email}

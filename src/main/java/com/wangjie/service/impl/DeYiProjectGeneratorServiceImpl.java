@@ -40,7 +40,7 @@ import java.util.Properties;
  * @Date 2020/5/18 5:02 下午
  * @Email wangjie_fourth@163.com
  **/
-@SuppressFBWarnings({"ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD", "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"})
+@SuppressFBWarnings({"ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD", "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE", "DM_DEFAULT_ENCODING"})
 public class DeYiProjectGeneratorServiceImpl implements ProjectGeneratorService {
 
     private final ConfigJson configJson;
@@ -192,7 +192,7 @@ public class DeYiProjectGeneratorServiceImpl implements ProjectGeneratorService 
         Path pathToFile = Paths.get(GeneratorMojo.projectDirector + filePrefixDir + fileName);
         Files.createDirectories(pathToFile.getParent());
         Files.createFile(pathToFile);
-        PrintWriter out = new PrintWriter(GeneratorMojo.projectDirector + filePrefixDir + fileName, "UTF-8T");
+        PrintWriter out = new PrintWriter(GeneratorMojo.projectDirector + filePrefixDir + fileName);
         out.println(content);
         out.close();
 
