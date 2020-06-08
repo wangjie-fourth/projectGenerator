@@ -125,7 +125,6 @@ public class GeneratorMojo extends AbstractMojo {
 
     public static void main(String[] args) {
         new GeneratorMojo().execute();
-        ;
     }
 }
 

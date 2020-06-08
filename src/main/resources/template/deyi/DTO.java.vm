@@ -3,6 +3,7 @@ package ${java.packagePrefix}.bean.dto;
 import lombok.*;
 import cn.victorplus.car.base.bean.base.page.Pagination;
 import ${java.packagePrefix}.bean.db.${java.className};
+import java.util.List;
 
 
 /**

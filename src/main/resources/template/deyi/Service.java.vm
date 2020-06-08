@@ -6,6 +6,13 @@ import javax.annotation.Resource;
 import ${java.packagePrefix}.bean.db.${java.className};
 import ${java.packagePrefix}.mapper.${java.className}Mapper;
 import ${java.packagePrefix}.manager.${java.className}Manager;
+import ${java.packagePrefix}.bean.dto.${java.className}DTO;
+import java.util.Objects;
+import cn.victorplus.car.base.bean.base.page.Pagination;
+import java.util.List;
+import org.apache.commons.beanutils.BeanUtils;
+import java.util.stream.Collectors;
+
 
 /**
  * @ClassName ${java.className}Service
@@ -35,7 +42,11 @@ public class ${java.className}Service {
         // 转换前端所需数据
         List<${java.className}DTO> data = ${java.paramName}List.stream().map(item -> {
             ${java.className}DTO result = new ${java.className}DTO();
-            BeanUtils.copyProperties(item, result);
+            try {
+                BeanUtils.copyProperties(item, result);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                throw new BusinessException("复制属性失败");
+            }
             return result;
         }).collect(Collectors.toList());
 

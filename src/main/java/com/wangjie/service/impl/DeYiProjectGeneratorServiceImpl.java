@@ -122,7 +122,7 @@ public class DeYiProjectGeneratorServiceImpl implements ProjectGeneratorService 
         setAttrs(javaDTO);
         context.put("java", javaDTO);
         String content = generatorModel(context, "template/deyi/Bean.java.vm");
-        stringToFile("/src/main/java/" + packagePrefix + "bean/db/", entityName, content);
+        stringToFile("/src/main/java/" + packagePrefix + "/bean/db/", entityName, content);
     }
 
     private void setAttrs(JavaDTO javaDTO) {

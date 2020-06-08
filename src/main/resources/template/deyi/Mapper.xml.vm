@@ -15,7 +15,7 @@
 
     <select id="listByPage" resultMap="BaseResultMap" parameterType="${java.packagePrefix}.bean.dto.${java.className}DTO">
         SELECT
-        #foreach($attr in $java.attrs)
+        #foreach($attr in $attrs)
             ${attr.columnName},
         #end
         FROM
@@ -47,7 +47,7 @@
                 #end
             #end
         </set>
-        #foreach($attr in $java.attrs)
+        #foreach($attr in $attrs)
         #if ($attr.isPK)
         where ${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
         #end
@@ -56,7 +56,7 @@
 
     <select id="selectById" resultMap="BaseResultMap">
         SELECT
-        #foreach($attr in $java.attrs)
+        #foreach($attr in $attrs)
         a.${attr.columnName},
         #end
         FROM
@@ -102,7 +102,7 @@
 
     <select id="selectBySelective" resultMap="BaseResultMap">
         SELECT
-        #foreach($attr in $java.attrs)
+        #foreach($attr in $attrs)
             ${attr.columnName},
         #end
         FROM

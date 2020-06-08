@@ -12,7 +12,8 @@
   "tables": [
     {
       "tableName": "table_info",
-      "tablePrefix": ""
+      "className": "",
+      "generatorEnum": false
     }
   ]
 }
