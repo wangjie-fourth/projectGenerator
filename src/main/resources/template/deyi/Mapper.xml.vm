@@ -40,7 +40,7 @@
         UPDATE `${java.tableName}`
         <set>
             #foreach($attr in $attrs)
-                #if ($attr.isPK == false)
+                #if (!$attr.isPK)
             <if test="${attr.attrName} != null">
                 ${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}},
             </if>
@@ -61,7 +61,7 @@
         #end
         FROM
             `${java.tableName}` a
-        #foreach($attr in $java.attrs)
+        #foreach($attr in $attrs)
         #if ($attr.isPK)
         where a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
         #end
@@ -71,14 +71,14 @@
     <insert id="insertSelective" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="${java.packagePrefix}.bean.db.${java.className}">
         INSERT INTO `${java.tableName}`
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            #foreach($attr in $java.attrs)
+            #foreach($attr in $attrs)
                 <if test="${attr.attrName} !=null">
                     ${attr.columnName},
                 </if>
             #end
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            #foreach($attr in $java.attrs)
+            #foreach($attr in $attrs)
                 <if test="${attr.attrName} !=null">
                     #{${attr.attrName},jdbcType=${attr.jdbcType}},
                 </if>
@@ -92,7 +92,7 @@
         FROM
             `${java.tableName}`
         <where>
-        #foreach($attr in $java.attrs)
+        #foreach($attr in $attrs)
             <if test="${attr.attrName} !=null">
                 AND ${attr.columnName} = #{${attr.attrName}}
             </if>

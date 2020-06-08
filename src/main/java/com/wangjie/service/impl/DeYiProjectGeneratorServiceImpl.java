@@ -169,7 +169,7 @@ public class DeYiProjectGeneratorServiceImpl implements ProjectGeneratorService 
                 }
 
                 // 判断是否为主键
-                attr.setPK(column.getColumnName().equals("id"));
+                attr.setPK(column.getColumnName().trim().equals("id"));
                 attrsMapList.add(attr);
             }
             context.put("attrs", attrsMapList);

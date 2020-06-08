@@ -31,10 +31,4 @@ public class ${java.className}Controller {
         return RespDTO.success(data);
     }
 
-    @PostMapping("/batch-query")
-    public RespDTO<?> batchQuery(@RequestBody ${java.className}DTO ${java.paramName}DTO){
-        ${java.className}DTO data = ${java.paramName}Service.batchQuery(${java.paramName}DTO);
-        return RespDTO.success(data);
-    }
-
 }
