@@ -22,6 +22,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
+import javax.annotation.Nullable;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,6 +32,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -79,50 +81,65 @@ public class DeYiProjectGeneratorServiceImpl implements ProjectGeneratorService 
     }
 
     @Override
-    public void generatorManager(JavaDTO javaDTO) throws IOException {
+    public void generatorManager(JavaDTO javaDTO, @Nullable String managerPrefix) throws IOException {
         String managerName = javaDTO.getClassName() + "Manager.java";
         context.put("java", javaDTO);
         String content = generatorModel(context, "template/deyi/Manager.java.vm");
-        stringToFile("/src/main/java/" + packagePrefix + "/manager/", managerName, content);
+        if (Objects.isNull(managerPrefix)) {
+            managerPrefix = "/src/main/java/" + packagePrefix + "/manager/";
+        }
+        stringToFile(managerPrefix, managerName, content);
     }
 
     @Override
-    public void generatorDTO(JavaDTO javaDTO) throws IOException {
+    public void generatorDTO(JavaDTO javaDTO, @Nullable String dtoPrefix) throws IOException {
         String dtoName = javaDTO.getClassName() + "DTO.java";
         context.put("java", javaDTO);
         String content = generatorModel(context, "template/deyi/DTO.java.vm");
-        stringToFile("/src/main/java/" + packagePrefix + "/bean/dto/", dtoName, content);
+        if (Objects.isNull(dtoPrefix)) {
+            dtoPrefix = "/src/main/java/" + packagePrefix + "/bean/dto/";
+        }
+        stringToFile(dtoPrefix, dtoName, content);
     }
 
 
     @Override
-    public void generatorMapperJava(JavaDTO javaDTO) throws IOException {
+    public void generatorMapperJava(JavaDTO javaDTO, @Nullable String mapperJavaPrefix) throws IOException {
         String mapperName = javaDTO.getClassName() + "Mapper.java";
         // 生成属性
         setAttrs(javaDTO);
         context.put("java", javaDTO);
         String content = generatorModel(context, "template/deyi/Mapper.java.vm");
-        stringToFile("/src/main/java/" + packagePrefix + "/mapper/", mapperName, content);
+        if (Objects.isNull(mapperJavaPrefix)) {
+            mapperJavaPrefix = "/src/main/java/" + packagePrefix + "/mapper/";
+        }
+        stringToFile(mapperJavaPrefix, mapperName, content);
     }
 
     @Override
-    public void generatorMapperXml(JavaDTO javaDTO) throws IOException {
+    public void generatorMapperXml(JavaDTO javaDTO, @Nullable String mapperXmlPrefix) throws IOException {
         String mapperName = javaDTO.getClassName() + "Mapper.xml";
         // 生成属性
         setAttrs(javaDTO);
         context.put("java", javaDTO);
         String content = generatorModel(context, "template/deyi/Mapper.xml.vm");
-        stringToFile("/src/main/resources/mapper/", mapperName, content);
+        if (Objects.isNull(mapperXmlPrefix)) {
+            mapperXmlPrefix = "/src/main/resources/mapper/";
+        }
+        stringToFile(mapperXmlPrefix, mapperName, content);
     }
 
     @Override
-    public void generatorEntity(JavaDTO javaDTO) throws IOException {
+    public void generatorEntity(JavaDTO javaDTO, @Nullable String entityPrefix) throws IOException {
         String entityName = javaDTO.getClassName() + ".java";
         // 生成属性
         setAttrs(javaDTO);
         context.put("java", javaDTO);
         String content = generatorModel(context, "template/deyi/Bean.java.vm");
-        stringToFile("/src/main/java/" + packagePrefix + "/bean/db/", entityName, content);
+        if (Objects.isNull(entityPrefix)) {
+            entityPrefix = "/src/main/java/" + packagePrefix + "/bean/db/";
+        }
+        stringToFile(entityPrefix, entityName, content);
     }
 
     private void setAttrs(JavaDTO javaDTO) {
@@ -183,11 +200,14 @@ public class DeYiProjectGeneratorServiceImpl implements ProjectGeneratorService 
 
 
     @Override
-    public void generatorController(JavaDTO javaDTO) throws IOException {
+    public void generatorController(JavaDTO javaDTO, @Nullable String controllerPrefix) throws IOException {
         String controllerName = javaDTO.getClassName() + "Controller.java";
         context.put("java", javaDTO);
         String content = generatorModel(context, "template/deyi/Controller.java.vm");
-        stringToFile("/src/main/java/" + packagePrefix + "/web/controller/", controllerName, content);
+        if (Objects.isNull(controllerPrefix)) {
+            controllerPrefix = "/src/main/java/" + packagePrefix + "/web/controller/";
+        }
+        stringToFile(controllerPrefix, controllerName, content);
     }
 
     private void stringToFile(String filePrefixDir, String fileName, String content) throws IOException {
@@ -204,11 +224,14 @@ public class DeYiProjectGeneratorServiceImpl implements ProjectGeneratorService 
     }
 
     @Override
-    public void generatorService(JavaDTO javaDTO) throws IOException {
+    public void generatorService(JavaDTO javaDTO, @Nullable String servicePrefix) throws IOException {
         String serviceName = javaDTO.getClassName() + "Service.java";
         context.put("java", javaDTO);
         String content = generatorModel(context, "template/deyi/Service.java.vm");
-        stringToFile("/src/main/java/" + packagePrefix + "/service/", serviceName, content);
+        if (Objects.isNull(servicePrefix)) {
+            servicePrefix = "/src/main/java/" + packagePrefix + "/service/";
+        }
+        stringToFile(servicePrefix, serviceName, content);
     }
 
 

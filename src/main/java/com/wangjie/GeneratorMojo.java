@@ -109,25 +109,53 @@ public class GeneratorMojo extends AbstractMojo {
                 ProjectGeneratorService service = new DeYiProjectGeneratorServiceImpl(configJson);
                 try {
                     if (needGeneratorController(configJson)) {
-                        service.generatorController(javaDTO);
+                        String controllerPrefix = null;
+                        if (Objects.nonNull(configJson.getProjectConfig().getController().getPrefix()) && !configJson.getProjectConfig().getController().getPrefix().trim().equals("")) {
+                            controllerPrefix = configJson.getProjectConfig().getController().getPrefix();
+                        }
+                        service.generatorController(javaDTO, controllerPrefix);
                     }
                     if (needGeneratorService(configJson)) {
-                        service.generatorService(javaDTO);
+                        String servicePrefix = null;
+                        if (Objects.nonNull(configJson.getProjectConfig().getService().getPrefix()) && !configJson.getProjectConfig().getService().getPrefix().trim().equals("")) {
+                            servicePrefix = configJson.getProjectConfig().getService().getPrefix();
+                        }
+                        service.generatorService(javaDTO, servicePrefix);
                     }
                     if (needGeneratorManager(configJson)) {
-                        service.generatorManager(javaDTO);
+                        String managerPrefix = null;
+                        if (Objects.nonNull(configJson.getProjectConfig().getManager().getPrefix()) && !configJson.getProjectConfig().getManager().getPrefix().trim().equals("")) {
+                            managerPrefix = configJson.getProjectConfig().getService().getPrefix();
+                        }
+                        service.generatorManager(javaDTO, managerPrefix);
                     }
                     if (needGeneratorEntity(configJson)) {
-                        service.generatorEntity(javaDTO);
+                        String entityPrefix = null;
+                        if (Objects.nonNull(configJson.getProjectConfig().getEntity().getPrefix()) && !configJson.getProjectConfig().getEntity().getPrefix().trim().equals("")) {
+                            entityPrefix = configJson.getProjectConfig().getEntity().getPrefix();
+                        }
+                        service.generatorEntity(javaDTO, entityPrefix);
                     }
                     if (needGeneratorDTO(configJson)) {
-                        service.generatorDTO(javaDTO);
+                        String dtoPrefix = null;
+                        if (Objects.nonNull(configJson.getProjectConfig().getDto().getPrefix()) && !configJson.getProjectConfig().getDto().getPrefix().trim().equals("")) {
+                            dtoPrefix = configJson.getProjectConfig().getEntity().getPrefix();
+                        }
+                        service.generatorDTO(javaDTO, dtoPrefix);
                     }
                     if (needGeneratorMapperJava(configJson)) {
-                        service.generatorMapperJava(javaDTO);
+                        String mapperJavaPrefix = null;
+                        if (Objects.nonNull(configJson.getProjectConfig().getMapperJ().getPrefix()) && !configJson.getProjectConfig().getMapperJ().getPrefix().trim().equals("")) {
+                            mapperJavaPrefix = configJson.getProjectConfig().getMapperJ().getPrefix();
+                        }
+                        service.generatorMapperJava(javaDTO, mapperJavaPrefix);
                     }
                     if (needGeneratorMapperXml(configJson)) {
-                        service.generatorMapperXml(javaDTO);
+                        String mapperXmlPrefix = null;
+                        if (Objects.nonNull(configJson.getProjectConfig().getMapperX().getPrefix()) && !configJson.getProjectConfig().getMapperX().getPrefix().trim().equals("")) {
+                            mapperXmlPrefix = configJson.getProjectConfig().getMapperX().getPrefix();
+                        }
+                        service.generatorMapperXml(javaDTO, mapperXmlPrefix);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -138,49 +166,49 @@ public class GeneratorMojo extends AbstractMojo {
     }
 
     private boolean needGeneratorMapperXml(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getMapperX())){
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getMapperX())) {
             return configJson.getProjectConfig().getMapperX().isGenerator();
         }
         return true;
     }
 
     private boolean needGeneratorMapperJava(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getMapperJ())){
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getMapperJ())) {
             return configJson.getProjectConfig().getMapperJ().isGenerator();
         }
         return true;
     }
 
     private boolean needGeneratorDTO(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getDto())){
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getDto())) {
             return configJson.getProjectConfig().getDto().isGenerator();
         }
         return true;
     }
 
     private boolean needGeneratorEntity(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getEntity())){
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getEntity())) {
             return configJson.getProjectConfig().getEntity().isGenerator();
         }
         return true;
     }
 
     private boolean needGeneratorManager(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getManager())){
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getManager())) {
             return configJson.getProjectConfig().getManager().isGenerator();
         }
         return true;
     }
 
     private boolean needGeneratorService(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getService())){
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getService())) {
             return configJson.getProjectConfig().getService().isGenerator();
         }
         return true;
     }
 
     private boolean needGeneratorController(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getController())){
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getController())) {
             return configJson.getProjectConfig().getController().isGenerator();
         }
         return true;
