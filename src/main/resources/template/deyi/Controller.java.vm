@@ -27,7 +27,9 @@ public class ${java.className}Controller {
 
     @PostMapping("/list")
     public RespDTO<?> list(@RequestBody ${java.className}DTO ${java.paramName}DTO){
+        log.info("输入参数：{}", ${java.paramName}DTO);
         ${java.className}DTO data = ${java.paramName}Service.listByPage(${java.paramName}DTO);
+        log.info("输出参数：{}", data);
         return RespDTO.success(data);
     }
 

@@ -4,29 +4,39 @@
 <mapper namespace="${java.packagePrefix}.mapper.${java.className}Mapper">
 
     <resultMap id="BaseResultMap" type="${java.packagePrefix}.bean.db.${java.className}">
-        #foreach($attr in $attrs)
-            #if ($attr.isPK)
+#foreach($attr in $attrs)
+#if ($attr.pk)
         <id column="${attr.columnName}" property="${attr.attrName}" jdbcType="${attr.jdbcType}"/>
-            #else
+#else
         <result column="${attr.columnName}" property="${attr.attrName}" jdbcType="${attr.jdbcType}"/>
-            #end
-        #end
+#end
+#end
     </resultMap>
 
     <select id="listByPage" resultMap="BaseResultMap" parameterType="${java.packagePrefix}.bean.dto.${java.className}DTO">
         SELECT
-        #foreach($attr in $attrs)
-            a.${attr.columnName},
-        #end
+#foreach($attr in $attrs)
+            a.${attr.columnName}#if($foreach.hasNext),
+#end
+#end
+
         FROM
             `${java.tableName}` a
         <where>
             a.is_delete = 0
-            #foreach($attr in $attrs)
+#foreach($attr in $attrs)
+#if($attr.jdbcType == "VARCHAR")
+            <if test="${attr.attrName} != null and ${attr.attrName} != ''">
+#else
             <if test="${attr.attrName} != null">
-                a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}},
+#end
+#if($attr.jdbcType == "DATE")
+                and to_days(a.${attr.columnName}) =  to_days(#{${attr.attrName},jdbcType=${attr.jdbcType}})
+#else
+                and a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
+#end
             </if>
-            #end
+#end
             <if test="batchQueryList !=null and batchQueryList.size >0">
                 AND 批量查询字段 in
                 <foreach collection="batchQueryList" item="item" open="(" separator="," close=")">
@@ -39,50 +49,52 @@
     <update id="updateSelectiveById" parameterType="${java.packagePrefix}.bean.db.${java.className}">
         UPDATE `${java.tableName}`
         <set>
-            #foreach($attr in $attrs)
-                #if (!$attr.isPK)
+#foreach($attr in $attrs)
+#if (!$attr.pk)
             <if test="${attr.attrName} != null">
                 ${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}},
             </if>
-                #end
-            #end
+#end
+#end
         </set>
-        #foreach($attr in $attrs)
-        #if ($attr.isPK)
+#foreach($attr in $attrs)
+#if ($attr.pk)
         where ${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
-        #end
-        #end
+#end
+#end
     </update>
 
     <select id="selectById" resultMap="BaseResultMap">
         SELECT
-        #foreach($attr in $attrs)
-        a.${attr.columnName},
-        #end
+#foreach($attr in $attrs)
+            a.${attr.columnName}#if($foreach.hasNext),
+#end
+#end
+
         FROM
             `${java.tableName}` a
-        #foreach($attr in $attrs)
-        #if ($attr.isPK)
+#foreach($attr in $attrs)
+#if ($attr.pk)
         where a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
-        #end
-        #end
+#end
+#end
     </select>
     
     <insert id="insertSelective" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="${java.packagePrefix}.bean.db.${java.className}">
         INSERT INTO `${java.tableName}`
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            #foreach($attr in $attrs)
-                <if test="${attr.attrName} !=null">
-                    ${attr.columnName},
-                </if>
-            #end
+#foreach($attr in $attrs)
+            <if test="${attr.attrName} !=null">
+                ${attr.columnName},
+            </if>
+#end
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            #foreach($attr in $attrs)
-                <if test="${attr.attrName} !=null">
-                    #{${attr.attrName},jdbcType=${attr.jdbcType}},
-                </if>
-            #end
+#foreach($attr in $attrs)
+            <if test="${attr.attrName} !=null">
+                #{${attr.attrName},jdbcType=${attr.jdbcType}},
+            </if>
+#end
         </trim>
     </insert>
 
@@ -90,29 +102,39 @@
         SELECT
             count(*)
         FROM
-            `${java.tableName}`
+            `${java.tableName}` a
         <where>
-        #foreach($attr in $attrs)
+#foreach($attr in $attrs)
             <if test="${attr.attrName} !=null">
-                AND ${attr.columnName} = #{${attr.attrName}}
+#if($attr.jdbcType == "DATE")
+                AND to_days(a.${attr.columnName}) =  to_days(#{${attr.attrName},jdbcType=${attr.jdbcType}})
+#else
+                AND a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
+#end
             </if>
-        #end
+#end
         </where>
     </select>
 
     <select id="selectBySelective" resultMap="BaseResultMap">
         SELECT
-        #foreach($attr in $attrs)
-            a.${attr.columnName},
-        #end
+#foreach($attr in $attrs)
+            a.${attr.columnName}#if($foreach.hasNext),
+#end
+#end
+
         FROM
-        `${java.tableName}` a
+            `${java.tableName}` a
         <where>
-            #foreach($attr in $attrs)
-                <if test="${attr.attrName} != null">
-                    a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}},
-                </if>
-            #end
+#foreach($attr in $attrs)
+            <if test="${attr.attrName} != null">
+#if($attr.jdbcType == "DATE")
+                and to_days(a.${attr.columnName}) =  to_days(#{${attr.attrName},jdbcType=${attr.jdbcType}})
+#else
+                and a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
+#end
+            </if>
+#end
         </where>
     </select>
 </mapper>

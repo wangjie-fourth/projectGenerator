@@ -38,3 +38,58 @@
 ```shell script
 mvn projectGenerator:generator
 ```
+
+---
+新添加的功能：
+```json
+{
+  "author": "wangjie",
+  "email": "wangjie@dycjr.com",
+  "packagePrefix": "com.wangjie",
+
+  "jdbc": {
+    "url": "jdbc:mysql://localhost:3306/generator_test?useUnicode=true&characterEncoding=utf-8&useSSL=false",
+    "username": "root",
+    "password": "root",
+    "driverClassName": "com.mysql.cj.jdbc.Driver"
+  },
+  "tables": [
+    {
+      "tableName": "table_info",
+      "className": "",//指定生成class名称
+      "generatorEnum": false // 是否生成枚举字段
+    }
+  ],
+  // 指定生成的类结构
+  "projectConfig":{
+    "controller": {
+      "generator": true,
+      "prefix": ""
+    },
+    "service": {
+       "generator": true,
+       "prefix": ""
+    },
+    "manager": {
+       "generator": true,
+       "prefix": ""
+    },
+    "mapperJ": {
+       "generator": true,
+       "prefix": ""
+    },
+    "mapperX": {
+       "generator": true,
+       "prefix": ""
+    },
+    "entity": {
+       "generator": true,
+       "prefix": ""
+    },
+    "dto": {
+        "generator": true,
+        "prefix": ""
+    }
+  }
+}
+```

@@ -11,9 +11,7 @@
   },
   "tables": [
     {
-      "tableName": "table_info",
-      "className": "",
-      "generatorEnum": false
+      "tableName": "table_info"
     }
   ]
 }

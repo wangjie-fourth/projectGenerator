@@ -2,6 +2,8 @@ package ${java.packagePrefix}.bean.db;
 
 import cn.victorplus.car.base.bean.base.DbEntity;
 import lombok.*;
+import java.math.BigDecimal;
+import java.util.Date;
 
 
 /**
@@ -18,11 +20,10 @@ import lombok.*;
 @Builder
 @ToString
 public class ${java.className} extends DbEntity {
-    //
-    // 数据库字段
-    // ------------------------------------------------------------------------------
+
 #foreach( $attr in $attrs )
 #if ($attr.generator)
+
     /**
      * $attr.attrNote
      */

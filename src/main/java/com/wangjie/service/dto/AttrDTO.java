@@ -20,7 +20,7 @@ public class AttrDTO {
     private String attrNote;
 
 
-    private boolean isPK = false;
+    private boolean pk;
     private String jdbcType;
     private String columnName;
 

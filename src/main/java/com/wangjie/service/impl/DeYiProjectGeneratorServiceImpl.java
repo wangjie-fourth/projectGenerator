@@ -154,6 +154,10 @@ public class DeYiProjectGeneratorServiceImpl implements ProjectGeneratorService 
                         attr.setAttrType("String");
                         attr.setJdbcType("VARCHAR");
                         break;
+                    case "decimal":
+                        attr.setAttrType("BigDecimal");
+                        attr.setJdbcType("DECIMAL");
+                        break;
                     default:
                         break;
                 }
@@ -163,13 +167,14 @@ public class DeYiProjectGeneratorServiceImpl implements ProjectGeneratorService 
                 attr.setAttrNote(column.getColumnComment());
                 attr.setColumnName(column.getColumnName());
 
+
                 // 默认不生成的字段
                 if (attrName.equals("id") || attrName.equals("modified") || attrName.equals("created")) {
                     attr.setGenerator(false);
                 }
 
                 // 判断是否为主键
-                attr.setPK(column.getColumnName().trim().equals("id"));
+                attr.setPk(column.getColumnName().trim().equals("id"));
                 attrsMapList.add(attr);
             }
             context.put("attrs", attrsMapList);
