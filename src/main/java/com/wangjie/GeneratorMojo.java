@@ -108,13 +108,27 @@ public class GeneratorMojo extends AbstractMojo {
                 // 生成指定的文件，并放到指定的位置
                 ProjectGeneratorService service = new DeYiProjectGeneratorServiceImpl(configJson);
                 try {
-                    service.generatorController(javaDTO);
-                    service.generatorService(javaDTO);
-                    service.generatorManager(javaDTO);
-                    service.generatorEntity(javaDTO);
-                    service.generatorDTO(javaDTO);
-                    service.generatorMapperJava(javaDTO);
-                    service.generatorMapperXml(javaDTO);
+                    if (needGeneratorController(configJson)) {
+                        service.generatorController(javaDTO);
+                    }
+                    if (needGeneratorService(configJson)) {
+                        service.generatorService(javaDTO);
+                    }
+                    if (needGeneratorManager(configJson)) {
+                        service.generatorManager(javaDTO);
+                    }
+                    if (needGeneratorEntity(configJson)) {
+                        service.generatorEntity(javaDTO);
+                    }
+                    if (needGeneratorDTO(configJson)) {
+                        service.generatorDTO(javaDTO);
+                    }
+                    if (needGeneratorMapperJava(configJson)) {
+                        service.generatorMapperJava(javaDTO);
+                    }
+                    if (needGeneratorMapperXml(configJson)) {
+                        service.generatorMapperXml(javaDTO);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -122,6 +136,56 @@ public class GeneratorMojo extends AbstractMojo {
             }
         }
     }
+
+    private boolean needGeneratorMapperXml(ConfigJson configJson) {
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getMapperX())){
+            return configJson.getProjectConfig().getMapperX().isGenerator();
+        }
+        return true;
+    }
+
+    private boolean needGeneratorMapperJava(ConfigJson configJson) {
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getMapperJ())){
+            return configJson.getProjectConfig().getMapperJ().isGenerator();
+        }
+        return true;
+    }
+
+    private boolean needGeneratorDTO(ConfigJson configJson) {
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getDto())){
+            return configJson.getProjectConfig().getDto().isGenerator();
+        }
+        return true;
+    }
+
+    private boolean needGeneratorEntity(ConfigJson configJson) {
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getEntity())){
+            return configJson.getProjectConfig().getEntity().isGenerator();
+        }
+        return true;
+    }
+
+    private boolean needGeneratorManager(ConfigJson configJson) {
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getManager())){
+            return configJson.getProjectConfig().getManager().isGenerator();
+        }
+        return true;
+    }
+
+    private boolean needGeneratorService(ConfigJson configJson) {
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getService())){
+            return configJson.getProjectConfig().getService().isGenerator();
+        }
+        return true;
+    }
+
+    private boolean needGeneratorController(ConfigJson configJson) {
+        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getController())){
+            return configJson.getProjectConfig().getController().isGenerator();
+        }
+        return true;
+    }
+
 
     public static void main(String[] args) {
         new GeneratorMojo().execute();

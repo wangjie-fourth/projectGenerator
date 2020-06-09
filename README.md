@@ -64,7 +64,7 @@ mvn projectGenerator:generator
   "projectConfig":{
     "controller": {
       "generator": true,
-      "prefix": ""
+      "prefix": ""// 如果有值，会覆盖上述设置的值
     },
     "service": {
        "generator": true,

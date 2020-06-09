@@ -27,4 +27,6 @@ public class ConfigJson {
     private Jdbc jdbc;
 
     private List<Table> tables;
+
+    private ProjectConfig projectConfig;
 }

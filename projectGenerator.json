@@ -2,7 +2,6 @@
   "author": "wangjie",
   "email": "wangjie@dycjr.com",
   "packagePrefix": "com.wangjie",
-
   "jdbc": {
     "url": "jdbc:mysql://localhost:3306/generator_test?useUnicode=true&characterEncoding=utf-8&useSSL=false",
     "username": "root",
@@ -13,5 +12,35 @@
     {
       "tableName": "table_info"
     }
-  ]
+  ],
+  "projectConfig": {
+    "controller": {
+      "generator": true,
+      "prefix": ""
+    },
+    "service": {
+      "generator": true,
+      "prefix": ""
+    },
+    "manager": {
+      "generator": true,
+      "prefix": ""
+    },
+    "mapperJ": {
+      "generator": true,
+      "prefix": ""
+    },
+    "mapperX": {
+      "generator": true,
+      "prefix": ""
+    },
+    "entity": {
+      "generator": true,
+      "prefix": ""
+    },
+    "dto": {
+      "generator": true,
+      "prefix": ""
+    }
+  }
 }
