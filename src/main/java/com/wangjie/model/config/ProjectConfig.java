@@ -4,7 +4,7 @@ import lombok.*;
 
 /**
  * @ClassName ProjectConfig
- * @Description 
+ * @Description
  * @Author wangjie
  * @Date 2020/6/9 3:01 下午
  * @Email wangjie_fourth@163.com

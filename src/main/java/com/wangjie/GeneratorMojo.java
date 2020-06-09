@@ -67,6 +67,9 @@ public class GeneratorMojo extends AbstractMojo {
         }
     }
 
+    private static final String javaPrefix = "/src/main/java";
+    private static final String xmlPrefix = "/src/main/resources";
+
 
     public void execute() {
         projectDirector = System.getProperty("user.dir");
@@ -112,50 +115,57 @@ public class GeneratorMojo extends AbstractMojo {
                         String controllerPrefix = null;
                         if (Objects.nonNull(configJson.getProjectConfig().getController().getPrefix()) && !configJson.getProjectConfig().getController().getPrefix().trim().equals("")) {
                             controllerPrefix = configJson.getProjectConfig().getController().getPrefix();
+                            controllerPrefix = String.join("/", controllerPrefix.split("\\."));
                         }
-                        service.generatorController(javaDTO, controllerPrefix);
+                        service.generatorController(javaDTO, javaPrefix + "/" + controllerPrefix + "/");
                     }
                     if (needGeneratorService(configJson)) {
                         String servicePrefix = null;
                         if (Objects.nonNull(configJson.getProjectConfig().getService().getPrefix()) && !configJson.getProjectConfig().getService().getPrefix().trim().equals("")) {
                             servicePrefix = configJson.getProjectConfig().getService().getPrefix();
+                            servicePrefix = String.join("/", servicePrefix.split("\\."));
                         }
-                        service.generatorService(javaDTO, servicePrefix);
+                        service.generatorService(javaDTO, javaPrefix + "/" + servicePrefix + "/");
                     }
                     if (needGeneratorManager(configJson)) {
                         String managerPrefix = null;
                         if (Objects.nonNull(configJson.getProjectConfig().getManager().getPrefix()) && !configJson.getProjectConfig().getManager().getPrefix().trim().equals("")) {
                             managerPrefix = configJson.getProjectConfig().getService().getPrefix();
+                            managerPrefix = String.join("/", managerPrefix.split("\\."));
                         }
-                        service.generatorManager(javaDTO, managerPrefix);
+                        service.generatorManager(javaDTO, javaPrefix + "/" + managerPrefix + "/");
                     }
                     if (needGeneratorEntity(configJson)) {
                         String entityPrefix = null;
                         if (Objects.nonNull(configJson.getProjectConfig().getEntity().getPrefix()) && !configJson.getProjectConfig().getEntity().getPrefix().trim().equals("")) {
                             entityPrefix = configJson.getProjectConfig().getEntity().getPrefix();
+                            entityPrefix = String.join("/", entityPrefix.split("\\."));
                         }
-                        service.generatorEntity(javaDTO, entityPrefix);
+                        service.generatorEntity(javaDTO, javaPrefix + "/" + entityPrefix + "/");
                     }
                     if (needGeneratorDTO(configJson)) {
                         String dtoPrefix = null;
                         if (Objects.nonNull(configJson.getProjectConfig().getDto().getPrefix()) && !configJson.getProjectConfig().getDto().getPrefix().trim().equals("")) {
                             dtoPrefix = configJson.getProjectConfig().getEntity().getPrefix();
+                            dtoPrefix = String.join("/", dtoPrefix.split("\\."));
                         }
-                        service.generatorDTO(javaDTO, dtoPrefix);
+                        service.generatorDTO(javaDTO, javaPrefix + "/" + dtoPrefix + "/");
                     }
                     if (needGeneratorMapperJava(configJson)) {
                         String mapperJavaPrefix = null;
                         if (Objects.nonNull(configJson.getProjectConfig().getMapperJ().getPrefix()) && !configJson.getProjectConfig().getMapperJ().getPrefix().trim().equals("")) {
                             mapperJavaPrefix = configJson.getProjectConfig().getMapperJ().getPrefix();
+                            mapperJavaPrefix = String.join("/", mapperJavaPrefix.split("\\."));
                         }
-                        service.generatorMapperJava(javaDTO, mapperJavaPrefix);
+                        service.generatorMapperJava(javaDTO, javaPrefix + "/" + mapperJavaPrefix + "/");
                     }
                     if (needGeneratorMapperXml(configJson)) {
                         String mapperXmlPrefix = null;
                         if (Objects.nonNull(configJson.getProjectConfig().getMapperX().getPrefix()) && !configJson.getProjectConfig().getMapperX().getPrefix().trim().equals("")) {
                             mapperXmlPrefix = configJson.getProjectConfig().getMapperX().getPrefix();
+                            mapperXmlPrefix = String.join("/", mapperXmlPrefix.split("\\."));
                         }
-                        service.generatorMapperXml(javaDTO, mapperXmlPrefix);
+                        service.generatorMapperXml(javaDTO, xmlPrefix + "/" + mapperXmlPrefix + "/");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

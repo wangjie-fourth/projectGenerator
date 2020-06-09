@@ -16,31 +16,31 @@
   "projectConfig": {
     "controller": {
       "generator": true,
-      "prefix": ""
+      "prefix": "com.wangjie.test"
     },
     "service": {
       "generator": true,
-      "prefix": ""
+      "prefix": "com.wangjie.test"
     },
     "manager": {
       "generator": true,
-      "prefix": ""
+      "prefix": "com.wangjie.test"
     },
     "mapperJ": {
       "generator": true,
-      "prefix": ""
+      "prefix": "com.wangjie.test"
     },
     "mapperX": {
-      "generator": true,
-      "prefix": ""
+      "generator": false,
+      "prefix": "com.wangjie.test"
     },
     "entity": {
       "generator": true,
-      "prefix": ""
+      "prefix": "com.wangjie.test"
     },
     "dto": {
       "generator": true,
-      "prefix": ""
+      "prefix": "com.wangjie.test"
     }
   }
 }
