@@ -31,6 +31,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import static com.wangjie.WorkFlowUtils.*;
+
 /**
  * @ClassName com.wangjie.GeneratorMojo
  * @Description
@@ -66,9 +68,6 @@ public class GeneratorMojo extends AbstractMojo {
             return table.getTableComment();
         }
     }
-
-    private static final String javaPrefix = "/src/main/java";
-    private static final String xmlPrefix = "/src/main/resources";
 
 
     public void execute() {
@@ -111,61 +110,36 @@ public class GeneratorMojo extends AbstractMojo {
                 // 生成指定的文件，并放到指定的位置
                 ProjectGeneratorService service = new DeYiProjectGeneratorServiceImpl(configJson);
                 try {
-                    if (needGeneratorController(configJson)) {
-                        String controllerPrefix = null;
-                        if (Objects.nonNull(configJson.getProjectConfig().getController().getPrefix()) && !configJson.getProjectConfig().getController().getPrefix().trim().equals("")) {
-                            controllerPrefix = configJson.getProjectConfig().getController().getPrefix();
-                            controllerPrefix = String.join("/", controllerPrefix.split("\\."));
-                        }
-                        service.generatorController(javaDTO, javaPrefix + "/" + controllerPrefix + "/");
+                    if (WorkFlowUtils.needGeneratorController(configJson)) {
+                        String controllerPrefix = getControllerPrefix(configJson);
+                        service.generatorController(javaDTO, controllerPrefix);
                     }
                     if (needGeneratorService(configJson)) {
-                        String servicePrefix = null;
-                        if (Objects.nonNull(configJson.getProjectConfig().getService().getPrefix()) && !configJson.getProjectConfig().getService().getPrefix().trim().equals("")) {
-                            servicePrefix = configJson.getProjectConfig().getService().getPrefix();
-                            servicePrefix = String.join("/", servicePrefix.split("\\."));
-                        }
-                        service.generatorService(javaDTO, javaPrefix + "/" + servicePrefix + "/");
+                        String servicePrefix = getServicePrefix(configJson);
+                        service.generatorService(javaDTO, servicePrefix);
                     }
                     if (needGeneratorManager(configJson)) {
-                        String managerPrefix = null;
-                        if (Objects.nonNull(configJson.getProjectConfig().getManager().getPrefix()) && !configJson.getProjectConfig().getManager().getPrefix().trim().equals("")) {
-                            managerPrefix = configJson.getProjectConfig().getService().getPrefix();
-                            managerPrefix = String.join("/", managerPrefix.split("\\."));
-                        }
-                        service.generatorManager(javaDTO, javaPrefix + "/" + managerPrefix + "/");
+                        String managerPrefix = getManagerPrefix(configJson);
+                        service.generatorManager(javaDTO, managerPrefix);
                     }
                     if (needGeneratorEntity(configJson)) {
-                        String entityPrefix = null;
-                        if (Objects.nonNull(configJson.getProjectConfig().getEntity().getPrefix()) && !configJson.getProjectConfig().getEntity().getPrefix().trim().equals("")) {
-                            entityPrefix = configJson.getProjectConfig().getEntity().getPrefix();
-                            entityPrefix = String.join("/", entityPrefix.split("\\."));
-                        }
-                        service.generatorEntity(javaDTO, javaPrefix + "/" + entityPrefix + "/");
+
+                        String entityPrefix = getEntityPrefix(configJson);
+                        service.generatorEntity(javaDTO, entityPrefix);
                     }
                     if (needGeneratorDTO(configJson)) {
-                        String dtoPrefix = null;
-                        if (Objects.nonNull(configJson.getProjectConfig().getDto().getPrefix()) && !configJson.getProjectConfig().getDto().getPrefix().trim().equals("")) {
-                            dtoPrefix = configJson.getProjectConfig().getEntity().getPrefix();
-                            dtoPrefix = String.join("/", dtoPrefix.split("\\."));
-                        }
-                        service.generatorDTO(javaDTO, javaPrefix + "/" + dtoPrefix + "/");
+                        String dtoPrefix = getDtoPrefix(configJson);
+                        service.generatorDTO(javaDTO, dtoPrefix);
                     }
                     if (needGeneratorMapperJava(configJson)) {
-                        String mapperJavaPrefix = null;
-                        if (Objects.nonNull(configJson.getProjectConfig().getMapperJ().getPrefix()) && !configJson.getProjectConfig().getMapperJ().getPrefix().trim().equals("")) {
-                            mapperJavaPrefix = configJson.getProjectConfig().getMapperJ().getPrefix();
-                            mapperJavaPrefix = String.join("/", mapperJavaPrefix.split("\\."));
-                        }
-                        service.generatorMapperJava(javaDTO, javaPrefix + "/" + mapperJavaPrefix + "/");
+
+                        String mapperJavaPrefix = getMapperJavaPrefix(configJson);
+                        service.generatorMapperJava(javaDTO, mapperJavaPrefix);
                     }
                     if (needGeneratorMapperXml(configJson)) {
-                        String mapperXmlPrefix = null;
-                        if (Objects.nonNull(configJson.getProjectConfig().getMapperX().getPrefix()) && !configJson.getProjectConfig().getMapperX().getPrefix().trim().equals("")) {
-                            mapperXmlPrefix = configJson.getProjectConfig().getMapperX().getPrefix();
-                            mapperXmlPrefix = String.join("/", mapperXmlPrefix.split("\\."));
-                        }
-                        service.generatorMapperXml(javaDTO, xmlPrefix + "/" + mapperXmlPrefix + "/");
+
+                        String mapperXmlPrefix = getMapperXmlPrefix(configJson);
+                        service.generatorMapperXml(javaDTO, mapperXmlPrefix);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -173,55 +147,6 @@ public class GeneratorMojo extends AbstractMojo {
 
             }
         }
-    }
-
-    private boolean needGeneratorMapperXml(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getMapperX())) {
-            return configJson.getProjectConfig().getMapperX().isGenerator();
-        }
-        return true;
-    }
-
-    private boolean needGeneratorMapperJava(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getMapperJ())) {
-            return configJson.getProjectConfig().getMapperJ().isGenerator();
-        }
-        return true;
-    }
-
-    private boolean needGeneratorDTO(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getDto())) {
-            return configJson.getProjectConfig().getDto().isGenerator();
-        }
-        return true;
-    }
-
-    private boolean needGeneratorEntity(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getEntity())) {
-            return configJson.getProjectConfig().getEntity().isGenerator();
-        }
-        return true;
-    }
-
-    private boolean needGeneratorManager(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getManager())) {
-            return configJson.getProjectConfig().getManager().isGenerator();
-        }
-        return true;
-    }
-
-    private boolean needGeneratorService(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getService())) {
-            return configJson.getProjectConfig().getService().isGenerator();
-        }
-        return true;
-    }
-
-    private boolean needGeneratorController(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getController())) {
-            return configJson.getProjectConfig().getController().isGenerator();
-        }
-        return true;
     }
 
 
