@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 @Service
 @Slf4j
 public class ${java.className}Manager {
+
     @Resource
     private ${java.className}Mapper ${java.paramName}Mapper;
 

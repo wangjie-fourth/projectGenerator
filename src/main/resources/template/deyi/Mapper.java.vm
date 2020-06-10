@@ -16,33 +16,52 @@ import ${java.packagePrefix}.bean.dto.${java.className}DTO;
 @Mapper
 @Repository
 public interface ${java.className}Mapper  {
+
     /**
-     * 分页查询数据
+     * 【分页查询数据】
+     *
+     * @param   ${java.paramName}DTO 查询参数
+     * @return  查询列表数据
      */
     List<${java.className}> listByPage(${java.className}DTO ${java.paramName}DTO);
 
     /**
-     * 根据id更新数据
+     * 【根据id更新数据】
+     *
+     * @param   ${java.paramName}   id作为更新条件，其作为更新参数
+     * @return  影响数据的条数
      */
     int updateSelectiveById(${java.className} ${java.paramName});
 
     /**
-     * 根据id查询
+     * 【根据id查询】
+     *
+     * @param   id  数据id
+     * @return  查询的数据
      */
     ${java.className} selectById(Long id);
 
     /**
-     * 新增非空属性数据
+     * 【新增非空属性数据】
+     *
+     * @param   ${java.paramName}   新增参数
+     * @return  影响数据的条数
      */
     int insertSelective(${java.className} ${java.paramName});
 
     /**
-     * 查询符合条件的数据个数
+     * 【查询符合条件的数据个数】
+     *
+     * @param   ${java.paramName}   查询条件
+     * @return  符合条件的数据个数
      */
     int countBySelective(${java.className} ${java.paramName});
 
     /**
-     * 获取符合条件的数据
+     * 【获取符合条件的数据】
+     *
+     * @param   ${java.paramName}   查询条件
+     * @return  查询的数据
      */
     List<${java.className}> selectBySelective(${java.className} ${java.paramName});
 

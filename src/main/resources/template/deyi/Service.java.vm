@@ -32,6 +32,12 @@ public class ${java.className}Service {
     @Resource
     private ${java.className}Manager ${java.paramName}Manager;
 
+    /**
+     * 【分页查询数据】
+     *
+     * @param   ${java.paramName}DTO   查询条件
+     * @return  页面数据
+     */
     public ${java.className}DTO listByPage(${java.className}DTO ${java.paramName}DTO) {
         // 分页
         if (Objects.nonNull(${java.paramName}DTO.getPagination())) {
