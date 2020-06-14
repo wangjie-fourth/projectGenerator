@@ -3,7 +3,9 @@ package ${java.packagePrefix}.manager;
 import org.springframework.stereotype.Service;
 import ${java.packagePrefix}.mapper.${java.className}Mapper;
 import lombok.extern.slf4j.Slf4j;
+
 import javax.annotation.Resource;
+import java.util.function.Consumer;
 
 /**
  * @ClassName ${java.className}Manager
@@ -18,5 +20,13 @@ public class ${java.className}Manager {
 
     @Resource
     private ${java.className}Mapper ${java.paramName}Mapper;
+
+    public ${java.className} selectOneBySelective(${java.className} ${java.paramName}, Consumer<List<${java.className}>> notOneProcess) {
+        List<${java.className}> data = ${java.paramName}Mapper.selectBySelective(${java.paramName});
+        if (data.size() != 1) {
+            notOneProcess.accept(data);
+        }
+        return data.get(0);
+    }
 
 }

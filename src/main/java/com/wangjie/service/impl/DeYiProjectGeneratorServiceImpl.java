@@ -94,6 +94,8 @@ public class DeYiProjectGeneratorServiceImpl implements ProjectGeneratorService 
     @Override
     public void generatorDTO(JavaDTO javaDTO, @Nullable String dtoPrefix) throws IOException {
         String dtoName = javaDTO.getClassName() + "DTO.java";
+        // 生成属性
+        setAttrs(javaDTO);
         context.put("java", javaDTO);
         String content = generatorModel(context, "template/deyi/DTO.java.vm");
         if (Objects.isNull(dtoPrefix)) {

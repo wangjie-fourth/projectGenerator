@@ -19,7 +19,10 @@ public class WorkFlowUtils {
 
     public static String getMapperXmlPrefix(ConfigJson configJson) {
         String mapperXmlPrefix = null;
-        if (Objects.nonNull(configJson.getProjectConfig().getMapperX().getPrefix()) && !configJson.getProjectConfig().getMapperX().getPrefix().trim().equals("")) {
+        if (Objects.nonNull(configJson.getProjectConfig())
+                && Objects.nonNull(configJson.getProjectConfig().getMapperX())
+                && Objects.nonNull(configJson.getProjectConfig().getMapperX().getPrefix())
+                && !configJson.getProjectConfig().getMapperX().getPrefix().trim().equals("")) {
             mapperXmlPrefix = configJson.getProjectConfig().getMapperX().getPrefix();
             mapperXmlPrefix = String.join("/", mapperXmlPrefix.split("\\."));
             mapperXmlPrefix = xmlPrefix + "/" + mapperXmlPrefix + "/";
@@ -29,7 +32,10 @@ public class WorkFlowUtils {
 
     public static String getMapperJavaPrefix(ConfigJson configJson) {
         String mapperJavaPrefix = null;
-        if (Objects.nonNull(configJson.getProjectConfig().getMapperJ().getPrefix()) && !configJson.getProjectConfig().getMapperJ().getPrefix().trim().equals("")) {
+        if (Objects.nonNull(configJson.getProjectConfig())
+                && Objects.nonNull(configJson.getProjectConfig().getMapperJ())
+                && Objects.nonNull(configJson.getProjectConfig().getMapperJ().getPrefix())
+                && !configJson.getProjectConfig().getMapperJ().getPrefix().trim().equals("")) {
             mapperJavaPrefix = configJson.getProjectConfig().getMapperJ().getPrefix();
             mapperJavaPrefix = String.join("/", mapperJavaPrefix.split("\\."));
             mapperJavaPrefix = javaPrefix + "/" + mapperJavaPrefix + "/";
@@ -39,7 +45,10 @@ public class WorkFlowUtils {
 
     public static String getDtoPrefix(ConfigJson configJson) {
         String dtoPrefix = null;
-        if (Objects.nonNull(configJson.getProjectConfig().getDto().getPrefix()) && !configJson.getProjectConfig().getDto().getPrefix().trim().equals("")) {
+        if (Objects.nonNull(configJson.getProjectConfig())
+                && Objects.nonNull(configJson.getProjectConfig().getDto())
+                && Objects.nonNull(configJson.getProjectConfig().getDto().getPrefix())
+                && !configJson.getProjectConfig().getDto().getPrefix().trim().equals("")) {
             dtoPrefix = configJson.getProjectConfig().getEntity().getPrefix();
             dtoPrefix = String.join("/", dtoPrefix.split("\\."));
             dtoPrefix = javaPrefix + "/" + dtoPrefix + "/";
@@ -50,7 +59,10 @@ public class WorkFlowUtils {
 
     public static String getEntityPrefix(ConfigJson configJson) {
         String entityPrefix = null;
-        if (Objects.nonNull(configJson.getProjectConfig().getEntity().getPrefix()) && !configJson.getProjectConfig().getEntity().getPrefix().trim().equals("")) {
+        if (Objects.nonNull(configJson.getProjectConfig())
+                && Objects.nonNull(configJson.getProjectConfig().getEntity())
+                && Objects.nonNull(configJson.getProjectConfig().getEntity().getPrefix())
+                && !configJson.getProjectConfig().getEntity().getPrefix().trim().equals("")) {
             entityPrefix = configJson.getProjectConfig().getEntity().getPrefix();
             entityPrefix = String.join("/", entityPrefix.split("\\."));
             entityPrefix = javaPrefix + "/" + entityPrefix + "/";
@@ -61,7 +73,11 @@ public class WorkFlowUtils {
 
     public static String getManagerPrefix(ConfigJson configJson) {
         String managerPrefix = null;
-        if (Objects.nonNull(configJson.getProjectConfig().getManager().getPrefix()) && !configJson.getProjectConfig().getManager().getPrefix().trim().equals("")) {
+        if (Objects.nonNull(configJson.getProjectConfig())
+                && Objects.nonNull(configJson.getProjectConfig().getManager())
+                && Objects.nonNull(configJson.getProjectConfig().getManager().getPrefix())
+                && !configJson.getProjectConfig().getManager().getPrefix().trim().equals("")) {
+
             managerPrefix = configJson.getProjectConfig().getService().getPrefix();
             managerPrefix = String.join("/", managerPrefix.split("\\."));
             managerPrefix = javaPrefix + "/" + managerPrefix + "/";
@@ -72,7 +88,10 @@ public class WorkFlowUtils {
 
     public static String getServicePrefix(ConfigJson configJson) {
         String servicePrefix = null;
-        if (Objects.nonNull(configJson.getProjectConfig().getService().getPrefix()) && !configJson.getProjectConfig().getService().getPrefix().trim().equals("")) {
+        if (Objects.nonNull(configJson.getProjectConfig())
+                && Objects.nonNull(configJson.getProjectConfig().getService())
+                && Objects.nonNull(configJson.getProjectConfig().getService().getPrefix())
+                && !configJson.getProjectConfig().getService().getPrefix().trim().equals("")) {
             servicePrefix = configJson.getProjectConfig().getService().getPrefix();
             servicePrefix = String.join("/", servicePrefix.split("\\."));
             servicePrefix = javaPrefix + "/" + servicePrefix + "/";
@@ -82,7 +101,11 @@ public class WorkFlowUtils {
 
     public static String getControllerPrefix(ConfigJson configJson) {
         String controllerPrefix = null;
-        if (Objects.nonNull(configJson.getProjectConfig().getController().getPrefix()) && !configJson.getProjectConfig().getController().getPrefix().trim().equals("")) {
+        if (Objects.nonNull(configJson.getProjectConfig())
+                && Objects.nonNull(configJson.getProjectConfig().getController())
+                && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())
+                && !configJson.getProjectConfig().getController().getPrefix().trim().equals("")) {
+
             controllerPrefix = configJson.getProjectConfig().getController().getPrefix();
             controllerPrefix = String.join("/", controllerPrefix.split("\\."));
             controllerPrefix = javaPrefix + "/" + controllerPrefix + "/";

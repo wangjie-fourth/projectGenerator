@@ -123,7 +123,6 @@ public class GeneratorMojo extends AbstractMojo {
                         service.generatorManager(javaDTO, managerPrefix);
                     }
                     if (needGeneratorEntity(configJson)) {
-
                         String entityPrefix = getEntityPrefix(configJson);
                         service.generatorEntity(javaDTO, entityPrefix);
                     }
@@ -132,12 +131,10 @@ public class GeneratorMojo extends AbstractMojo {
                         service.generatorDTO(javaDTO, dtoPrefix);
                     }
                     if (needGeneratorMapperJava(configJson)) {
-
                         String mapperJavaPrefix = getMapperJavaPrefix(configJson);
                         service.generatorMapperJava(javaDTO, mapperJavaPrefix);
                     }
                     if (needGeneratorMapperXml(configJson)) {
-
                         String mapperXmlPrefix = getMapperXmlPrefix(configJson);
                         service.generatorMapperXml(javaDTO, mapperXmlPrefix);
                     }

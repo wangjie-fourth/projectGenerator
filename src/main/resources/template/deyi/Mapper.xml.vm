@@ -25,17 +25,21 @@
         <where>
             a.is_delete = 0
 #foreach($attr in $attrs)
+#if($attr.attrName != "created" && $attr.attrName != "modified")
 #if($attr.jdbcType == "VARCHAR")
             <if test="${attr.attrName} != null and ${attr.attrName} != ''">
+                and a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
+            </if>
+#elseif($attr.jdbcType == "DATE")
+            <if test="${attr.attrName}Begin != null and ${attr.attrName}End != null">
+                and a.${attr.columnName} between #{${attr.attrName}Begin,jdbcType=${attr.jdbcType}} and  #{${attr.attrName}End,jdbcType=${attr.jdbcType}}
+            </if>
 #else
             <if test="${attr.attrName} != null">
-#end
-#if($attr.jdbcType == "DATE")
-                and to_days(a.${attr.columnName}) =  to_days(#{${attr.attrName},jdbcType=${attr.jdbcType}})
-#else
                 and a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
-#end
             </if>
+#end
+#end
 #end
             <if test="batchQueryList !=null and batchQueryList.size >0">
                 AND 批量查询字段 in
@@ -105,13 +109,28 @@
             `${java.tableName}` a
         <where>
 #foreach($attr in $attrs)
-            <if test="${attr.attrName} !=null">
-#if($attr.jdbcType == "DATE")
-                AND to_days(a.${attr.columnName}) =  to_days(#{${attr.attrName},jdbcType=${attr.jdbcType}})
-#else
-                AND a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
-#end
+#if($attr.attrName != "created" && $attr.attrName != "modified")
+#if($attr.attrName == "is_delete")
+            <if test="${attr.attrName} == null">
+                and a.${attr.attrName} = 0
             </if>
+            <if test="${attr.attrName} != null">
+                and a.${attr.attrName} = #{${attr.attrName},jdbcType=${attr.jdbcType}}
+            </if>
+#elseif($attr.jdbcType == "VARCHAR")
+            <if test="${attr.attrName} != null and ${attr.attrName} != ''">
+                and a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
+            </if>
+#elseif($attr.jdbcType == "DATE")
+            <if test="${attr.attrName}Begin != null and ${attr.attrName}End != null">
+                and a.${attr.columnName} between #{${attr.attrName}Begin,jdbcType=${attr.jdbcType}} and  #{${attr.attrName}End,jdbcType=${attr.jdbcType}}
+            </if>
+#else
+            <if test="${attr.attrName} != null">
+                and a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
+            </if>
+#end
+#end
 #end
         </where>
     </select>
@@ -127,13 +146,28 @@
             `${java.tableName}` a
         <where>
 #foreach($attr in $attrs)
-            <if test="${attr.attrName} != null">
-#if($attr.jdbcType == "DATE")
-                and to_days(a.${attr.columnName}) =  to_days(#{${attr.attrName},jdbcType=${attr.jdbcType}})
-#else
-                and a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
-#end
+#if($attr.attrName != "created" && $attr.attrName != "modified")
+#if($attr.attrName == "is_delete")
+            <if test="${attr.attrName} == null">
+                and a.${attr.attrName} = 0
             </if>
+            <if test="${attr.attrName} != null">
+                and a.${attr.attrName} = #{${attr.attrName},jdbcType=${attr.jdbcType}}
+            </if>
+#elseif($attr.jdbcType == "VARCHAR")
+            <if test="${attr.attrName} != null and ${attr.attrName} != ''">
+                and a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
+            </if>
+#elseif($attr.jdbcType == "DATE")
+            <if test="${attr.attrName}Begin != null and ${attr.attrName}End != null">
+                and a.${attr.columnName} between #{${attr.attrName}Begin,jdbcType=${attr.jdbcType}} and  #{${attr.attrName}End,jdbcType=${attr.jdbcType}}
+            </if>
+#else
+            <if test="${attr.attrName} != null">
+                and a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
+            </if>
+#end
+#end
 #end
         </where>
     </select>
