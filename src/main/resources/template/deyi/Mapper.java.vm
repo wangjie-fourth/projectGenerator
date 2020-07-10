@@ -64,7 +64,5 @@ public interface ${java.className}Mapper  {
      * @return  查询的数据
      */
     List<${java.className}> selectBySelective(${java.className} ${java.paramName});
-
-
 }
 

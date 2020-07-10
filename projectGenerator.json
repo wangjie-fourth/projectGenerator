@@ -1,42 +1,42 @@
 {
   "author": "wangjie",
   "email": "wangjie@dycjr.com",
-  "packagePrefix": "com.wangjie",
+  "packagePrefix": "cn.victorplus.finance.product.mapper.product",
   "jdbc": {
-    "url": "jdbc:mysql://localhost:3306/generator_test?useUnicode=true&characterEncoding=utf-8&useSSL=false",
-    "username": "root",
-    "password": "root",
+    "url": "jdbc:mysql://mysql.test.victorplus.cn:3306/boss-cas?useUnicode=true&characterEncoding=utf8",
+    "username": "casuser",
+    "password": "vK4iEUyQS2HGcQ5n1A",
     "driverClassName": "com.mysql.cj.jdbc.Driver"
   },
   "tables": [
     {
-      "tableName": "table_info"
+      "tableName": "p_mortgage_fee_rule_fund_config"
     }
   ],
   "projectConfig": {
     "controller": {
-      "generator": true,
-      "prefix": "com.wangjie.test"
+      "generator": false,
+      "prefix": "cn.victorplus.finance.product.controller"
     },
     "service": {
-      "generator": true,
-      "prefix": "com.wangjie.test"
+      "generator": false,
+      "prefix": "cn.victorplus.finance.product.service.impl.product"
     },
     "manager": {
-      "generator": true,
-      "prefix": "com.wangjie.test"
+      "generator": false,
+      "prefix": "cn.victorplus.finance.product.manager"
     },
     "mapperJ": {
-      "generator": true,
-      "prefix": "com.wangjie.test"
+      "generator": false,
+      "prefix": "cn.victorplus.finance.product.mapper.product"
     },
     "mapperX": {
       "generator": false,
-      "prefix": "com.wangjie.test"
+      "prefix": "/mapper/"
     },
     "entity": {
-      "generator": true,
-      "prefix": "com.wangjie.test"
+      "generator": false,
+      "prefix": "cn.victorplus.finance.product.bean.db.product"
     },
     "dto": {
       "generator": true,

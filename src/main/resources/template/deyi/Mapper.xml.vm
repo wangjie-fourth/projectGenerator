@@ -13,13 +13,25 @@
 #end
     </resultMap>
 
+    <sql id="allColumns">
+#foreach($attr in $attrs)
+        a.${attr.columnName}#if($foreach.hasNext),
+#end
+#end
+    </sql>
+
+    <sql id="baseColumns">
+#foreach($attr in $attrs)
+#if($attr.attrName != "created" && $attr.attrName != "modified")
+        a.${attr.columnName}#if($foreach.hasNext),
+#end
+#end
+#end
+    </sql>
+
     <select id="listByPage" resultMap="BaseResultMap" parameterType="${java.packagePrefix}.bean.dto.${java.className}DTO">
         SELECT
-#foreach($attr in $attrs)
-            a.${attr.columnName}#if($foreach.hasNext),
-#end
-#end
-
+            <sql id="baseColumns"/>
         FROM
             `${java.tableName}` a
         <where>
@@ -70,11 +82,7 @@
 
     <select id="selectById" resultMap="BaseResultMap">
         SELECT
-#foreach($attr in $attrs)
-            a.${attr.columnName}#if($foreach.hasNext),
-#end
-#end
-
+            <sql id="baseColumns"/>
         FROM
             `${java.tableName}` a
 #foreach($attr in $attrs)
@@ -137,11 +145,7 @@
 
     <select id="selectBySelective" resultMap="BaseResultMap">
         SELECT
-#foreach($attr in $attrs)
-            a.${attr.columnName}#if($foreach.hasNext),
-#end
-#end
-
+            <sql id="baseColumns"/>
         FROM
             `${java.tableName}` a
         <where>
