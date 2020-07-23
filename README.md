@@ -10,13 +10,17 @@
     <version>1.0-SNAPSHOT</version>
 </plugin>
 ```
-
-2、在根目录下，新建`projectGenerator.json`
+---
+## 功能描述
+1、平常情况
+通常新业务过来的时候，我们需要新建表，然后在代码中建议对应的模型类、以及相关结构代码。比如：Entity、Service、Controller等等
+所以配置信息如下：
 ```json
 {
   "author": "wangjie",
   "email": "wangjie@dycjr.com",
   "packagePrefix": "com.wangjie",
+  "xmlPrefix": "mapper/",   
 
   "jdbc": {
     "url": "jdbc:mysql://localhost:3306/generator_test?useUnicode=true&characterEncoding=utf-8&useSSL=false",
@@ -24,15 +28,56 @@
     "password": "root",
     "driverClassName": "com.mysql.cj.jdbc.Driver"
   },
+
   "tables": [
     {
-      "tableName": "table_info",
-      "className": "",
-      "generatorEnum": false
+      "tableName": "table_info"
     }
   ]
 }
 ```
+
+2、特殊情况
+有时候，我们不需要生成一整套结构代码，可能我们仅需要生成Entity。这时候配置如下：
+```json
+{
+  "projectConfig": {
+    "controller": {
+      "generator": false,
+      "prefix": "cn.victorplus.finance.product.controller"
+    },
+    "service": {
+      "generator": false,
+      "prefix": "cn.victorplus.finance.product.service.impl.product"
+    },
+    "manager": {
+      "generator": false,
+      "prefix": "cn.victorplus.finance.product.manager"
+    },
+    "mapperJ": {
+      "generator": false,
+      "prefix": "cn.victorplus.finance.product.mapper.product"
+    },
+    "mapperX": {
+      "generator": false,
+      "prefix": "/mapper/"
+    },
+    "entity": {
+      "generator": false,
+      "prefix": "cn.victorplus.finance.product.bean.db.product"
+    },
+    "dto": {
+      "generator": true,
+      "prefix": "com.wangjie.test"
+    }
+  }
+}
+```
+这里含有配置，并且这里的配置信息优先级最高。
+
+# 相关约定
+- 表名以下划线风格命名
+
 
 3、执行命令，生成模板
 ```shell script

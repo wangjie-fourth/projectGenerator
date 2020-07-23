@@ -24,6 +24,8 @@ public class ConfigJson {
 
     private String packagePrefix;
 
+    private String xmlPrefix;
+
     private Jdbc jdbc;
 
     private List<Table> tables;

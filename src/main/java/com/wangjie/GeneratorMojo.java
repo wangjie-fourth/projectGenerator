@@ -48,43 +48,10 @@ public class GeneratorMojo extends AbstractMojo {
     public static String projectDirector = "";
 
 
-    private String getTableNote(String tableName, ConfigJson configJson) {
-        DataSource dataSource = null;
-        dataSource = new PooledDataSource("com.mysql.cj.jdbc.Driver",
-                configJson.getJdbc().getUrl(),
-                configJson.getJdbc().getUsername(),
-                configJson.getJdbc().getPassword());
-
-        TransactionFactory transactionFactory = new JdbcTransactionFactory();
-        Environment environment = new Environment("development", transactionFactory, dataSource);
-        Configuration configuration = new Configuration(environment);
-        configuration.addMapper(TableMapper.class);
-        configuration.addMapper(ColumnMapper.class);
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            TableMapper tableMapper = session.getMapper(TableMapper.class);
-            com.wangjie.model.db.Table table = tableMapper.queryTable(tableName);
-            return table.getTableComment();
-        }
-    }
-
-
     public void execute() {
         projectDirector = System.getProperty("user.dir");
 
-        getLog().info("读取配置文件：项目根目录下的projectGenerator.json");
-        ConfigJson configJson = null;
-        // 读取配置文件：项目根目录下的projectGenerator.json
-        try {
-            File file = new File("projectGenerator.json");
-            StringBuilder configInfo = new StringBuilder();
-            List<String> configList = IOUtils.readLines(new FileInputStream(file), Charset.defaultCharset());
-            configList.forEach(configInfo::append);
-            configJson = MAPPER.readValue(configInfo.toString(), ConfigJson.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ConfigJson configJson = readConfigFile();
 
         // 按照表
         getLog().info("生成java文件");
@@ -92,57 +59,60 @@ public class GeneratorMojo extends AbstractMojo {
                 || Objects.isNull(configJson.getTables())
                 || configJson.getTables().size() == 0) {
             getLog().info("无需要生成的表信息");
-        } else {
-            for (Table table : configJson.getTables()) {
-                String paramClass = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, table.getTableName());
-                String className = Character.toUpperCase(paramClass.charAt(0)) + paramClass.substring(1);
-                JavaDTO javaDTO = JavaDTO.builder()
-                        .paramName(paramClass)
-                        .className(className)
-                        .note(this.getTableNote(table.getTableName(), configJson))
-                        .author(configJson.getAuthor())
-                        .email(configJson.getEmail())
-                        .dateTime(new Date())
-                        .packagePrefix(configJson.getPackagePrefix())
-                        .tableName(table.getTableName())
-                        .build();
+            return;
+        }
+        for (Table table : configJson.getTables()) {
+            JavaDTO javaDTO = DdDataUtils.readDataFromDB(table.getTableName(), configJson);
 
-                // 生成指定的文件，并放到指定的位置
-                ProjectGeneratorService service = new DeYiProjectGeneratorServiceImpl(configJson);
-                try {
-                    if (WorkFlowUtils.needGeneratorController(configJson)) {
-                        String controllerPrefix = getControllerPrefix(configJson);
-                        service.generatorController(javaDTO, controllerPrefix);
-                    }
-                    if (needGeneratorService(configJson)) {
-                        String servicePrefix = getServicePrefix(configJson);
-                        service.generatorService(javaDTO, servicePrefix);
-                    }
-                    if (needGeneratorManager(configJson)) {
-                        String managerPrefix = getManagerPrefix(configJson);
-                        service.generatorManager(javaDTO, managerPrefix);
-                    }
-                    if (needGeneratorEntity(configJson)) {
-                        String entityPrefix = getEntityPrefix(configJson);
-                        service.generatorEntity(javaDTO, entityPrefix);
-                    }
-                    if (needGeneratorDTO(configJson)) {
-                        String dtoPrefix = getDtoPrefix(configJson);
-                        service.generatorDTO(javaDTO, dtoPrefix);
-                    }
-                    if (needGeneratorMapperJava(configJson)) {
-                        String mapperJavaPrefix = getMapperJavaPrefix(configJson);
-                        service.generatorMapperJava(javaDTO, mapperJavaPrefix);
-                    }
-                    if (needGeneratorMapperXml(configJson)) {
-                        String mapperXmlPrefix = getMapperXmlPrefix(configJson);
-                        service.generatorMapperXml(javaDTO, mapperXmlPrefix);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+            // 生成指定的文件，并放到指定的位置
+            ProjectGeneratorService service = new DeYiProjectGeneratorServiceImpl();
+            try {
+                if (needGeneratorController(configJson)) {
+                    String controllerPrefix = getControllerPrefix(configJson);
+                    service.generatorController(javaDTO, controllerPrefix);
                 }
-
+                if (needGeneratorService(configJson)) {
+                    String servicePrefix = getServicePrefix(configJson);
+                    service.generatorService(javaDTO, servicePrefix);
+                }
+                if (needGeneratorManager(configJson)) {
+                    String managerPrefix = getManagerPrefix(configJson);
+                    service.generatorManager(javaDTO, managerPrefix);
+                }
+                if (needGeneratorEntity(configJson)) {
+                    String entityPrefix = getEntityPrefix(configJson);
+                    service.generatorEntity(javaDTO, entityPrefix);
+                }
+                if (needGeneratorDTO(configJson)) {
+                    String dtoPrefix = getDtoPrefix(configJson);
+                    service.generatorDTO(javaDTO, dtoPrefix);
+                }
+                if (needGeneratorMapperJava(configJson)) {
+                    String mapperJavaPrefix = getMapperJavaPrefix(configJson);
+                    service.generatorMapperJava(javaDTO, mapperJavaPrefix);
+                }
+                if (needGeneratorMapperXml(configJson)) {
+                    String mapperXmlPrefix = getMapperXmlPrefix(configJson);
+                    service.generatorMapperXml(javaDTO, mapperXmlPrefix);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
+        }
+    }
+
+    private ConfigJson readConfigFile() {
+        getLog().info("读取配置文件：项目根目录下的projectGenerator.json");
+        // 读取配置文件：项目根目录下的projectGenerator.json
+        try {
+            File file = new File("projectGenerator.json");
+            StringBuilder configInfo = new StringBuilder();
+            List<String> configList = IOUtils.readLines(new FileInputStream(file), Charset.defaultCharset());
+            configList.forEach(configInfo::append);
+            return MAPPER.readValue(configInfo.toString(), ConfigJson.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

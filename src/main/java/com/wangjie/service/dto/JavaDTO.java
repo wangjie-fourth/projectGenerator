@@ -1,9 +1,7 @@
 package com.wangjie.service.dto;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
@@ -19,18 +17,21 @@ import java.util.List;
 @Setter
 @Builder
 @SuppressFBWarnings("EI_EXPOSE_REP")
+@AllArgsConstructor
+@NoArgsConstructor
 public class JavaDTO {
-    private String className;
-    private String paramName;
-    // 表备注
-    private String note;
-    private String author;
-    private String email;
-    private Date dateTime;
     // 包前缀
     private String packagePrefix;
+    private String email;
+    private Date dateTime;
+    private String author;
 
-    private List<AttrDTO> attrs;
-
+    private String className;
+    private String paramName;
     private String tableName;
+
+
+    // 表备注
+    private String note;
+    private List<AttrDTO> attrs;
 }
