@@ -18,7 +18,7 @@ public class WorkFlowUtils {
     private static final String xmlPrefix = "/src/main/resources";
 
     public static String getMapperXmlPrefix(ConfigJson configJson) {
-        String mapperXmlPrefix = null;
+        String mapperXmlPrefix = "/src/main/resources/mapper/";
         if (Objects.nonNull(configJson.getProjectConfig())
                 && Objects.nonNull(configJson.getProjectConfig().getMapperX())
                 && Objects.nonNull(configJson.getProjectConfig().getMapperX().getPrefix())
@@ -30,87 +30,85 @@ public class WorkFlowUtils {
         return mapperXmlPrefix;
     }
 
-    public static String getMapperJavaPrefix(ConfigJson configJson) {
-        String mapperJavaPrefix = null;
-        if (Objects.nonNull(configJson.getProjectConfig())
-                && Objects.nonNull(configJson.getProjectConfig().getMapperJ())
-                && Objects.nonNull(configJson.getProjectConfig().getMapperJ().getPrefix())
-                && !configJson.getProjectConfig().getMapperJ().getPrefix().trim().equals("")) {
-            mapperJavaPrefix = configJson.getProjectConfig().getMapperJ().getPrefix();
-            mapperJavaPrefix = String.join("/", mapperJavaPrefix.split("\\."));
-            mapperJavaPrefix = javaPrefix + "/" + mapperJavaPrefix + "/";
+
+    public static String getConfigPath(String basePrefix, ConfigJson configJson, String specialPath, int i) {
+        switch (i) {
+            case 1: {
+                if (Objects.nonNull(configJson.getProjectConfig())
+                        && Objects.nonNull(configJson.getProjectConfig().getController())
+                        && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())) {
+                    String path = String.join("/", configJson.getProjectConfig().getController().getPrefix().split("\\."));
+                    basePrefix = basePrefix + "/" + path + "/";
+                    return basePrefix;
+                }
+                break;
+            }
+            case 2: {
+                if (Objects.nonNull(configJson.getProjectConfig())
+                        && Objects.nonNull(configJson.getProjectConfig().getController())
+                        && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())) {
+                    String path = String.join("/", configJson.getProjectConfig().getService().getPrefix().split("\\."));
+                    basePrefix = basePrefix + "/" + path + "/";
+                    return basePrefix;
+                }
+                break;
+            }
+            case 3: {
+                if (Objects.nonNull(configJson.getProjectConfig())
+                        && Objects.nonNull(configJson.getProjectConfig().getController())
+                        && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())) {
+                    String path = String.join("/", configJson.getProjectConfig().getManager().getPrefix().split("\\."));
+                    basePrefix = basePrefix + "/" + path + "/";
+                    return basePrefix;
+                }
+                break;
+            }
+            case 4: {
+                if (Objects.nonNull(configJson.getProjectConfig())
+                        && Objects.nonNull(configJson.getProjectConfig().getController())
+                        && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())) {
+                    String path = String.join("/", configJson.getProjectConfig().getEntity().getPrefix().split("\\."));
+                    basePrefix = basePrefix + "/" + path + "/";
+                    return basePrefix;
+                }
+                break;
+            }
+            case 5: {
+                if (Objects.nonNull(configJson.getProjectConfig())
+                        && Objects.nonNull(configJson.getProjectConfig().getController())
+                        && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())) {
+                    String path = String.join("/", configJson.getProjectConfig().getDto().getPrefix().split("\\."));
+                    basePrefix = basePrefix + "/" + path + "/";
+                    return basePrefix;
+                }
+                break;
+            }
+            case 6: {
+                if (Objects.nonNull(configJson.getProjectConfig())
+                        && Objects.nonNull(configJson.getProjectConfig().getController())
+                        && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())) {
+                    String path = String.join("/", configJson.getProjectConfig().getMapperJ().getPrefix().split("\\."));
+                    basePrefix = basePrefix + "/" + path + "/";
+                    return basePrefix;
+                }
+                break;
+            }
         }
-        return mapperJavaPrefix;
-    }
 
-    public static String getDtoPrefix(ConfigJson configJson) {
-        String dtoPrefix = null;
         if (Objects.nonNull(configJson.getProjectConfig())
-                && Objects.nonNull(configJson.getProjectConfig().getDto())
-                && Objects.nonNull(configJson.getProjectConfig().getDto().getPrefix())
-                && !configJson.getProjectConfig().getDto().getPrefix().trim().equals("")) {
-            dtoPrefix = configJson.getProjectConfig().getEntity().getPrefix();
-            dtoPrefix = String.join("/", dtoPrefix.split("\\."));
-            dtoPrefix = javaPrefix + "/" + dtoPrefix + "/";
+                && Objects.nonNull(configJson.getPackagePrefix())) {
+            String path = String.join("/", configJson.getPackagePrefix().split("\\."));
+            basePrefix = basePrefix + "/" + path + "/";
+            return basePrefix;
         }
-        return dtoPrefix;
-    }
 
-
-    public static String getEntityPrefix(ConfigJson configJson) {
-        String entityPrefix = null;
-        if (Objects.nonNull(configJson.getProjectConfig())
-                && Objects.nonNull(configJson.getProjectConfig().getEntity())
-                && Objects.nonNull(configJson.getProjectConfig().getEntity().getPrefix())
-                && !configJson.getProjectConfig().getEntity().getPrefix().trim().equals("")) {
-            entityPrefix = configJson.getProjectConfig().getEntity().getPrefix();
-            entityPrefix = String.join("/", entityPrefix.split("\\."));
-            entityPrefix = javaPrefix + "/" + entityPrefix + "/";
+        if (Objects.nonNull(configJson.getPackagePrefix())) {
+            String path = String.join("/", configJson.getPackagePrefix().split("\\."));
+            basePrefix = basePrefix + "/" + path + "/";
+            return basePrefix;
         }
-        return entityPrefix;
-    }
 
-
-    public static String getManagerPrefix(ConfigJson configJson) {
-        String managerPrefix = null;
-        if (Objects.nonNull(configJson.getProjectConfig())
-                && Objects.nonNull(configJson.getProjectConfig().getManager())
-                && Objects.nonNull(configJson.getProjectConfig().getManager().getPrefix())
-                && !configJson.getProjectConfig().getManager().getPrefix().trim().equals("")) {
-
-            managerPrefix = configJson.getProjectConfig().getService().getPrefix();
-            managerPrefix = String.join("/", managerPrefix.split("\\."));
-            managerPrefix = javaPrefix + "/" + managerPrefix + "/";
-        }
-        return managerPrefix;
-    }
-
-
-    public static String getServicePrefix(ConfigJson configJson) {
-        String servicePrefix = null;
-        if (Objects.nonNull(configJson.getProjectConfig())
-                && Objects.nonNull(configJson.getProjectConfig().getService())
-                && Objects.nonNull(configJson.getProjectConfig().getService().getPrefix())
-                && !configJson.getProjectConfig().getService().getPrefix().trim().equals("")) {
-            servicePrefix = configJson.getProjectConfig().getService().getPrefix();
-            servicePrefix = String.join("/", servicePrefix.split("\\."));
-            servicePrefix = javaPrefix + "/" + servicePrefix + "/";
-        }
-        return servicePrefix;
-    }
-
-    public static String getControllerPrefix(ConfigJson configJson) {
-        String controllerPrefix = null;
-        if (Objects.nonNull(configJson.getProjectConfig())
-                && Objects.nonNull(configJson.getProjectConfig().getController())
-                && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())
-                && !configJson.getProjectConfig().getController().getPrefix().trim().equals("")) {
-
-            controllerPrefix = configJson.getProjectConfig().getController().getPrefix();
-            controllerPrefix = String.join("/", controllerPrefix.split("\\."));
-            controllerPrefix = javaPrefix + "/" + controllerPrefix + "/";
-        }
-        return controllerPrefix;
+        throw new RuntimeException("请配置路径信息");
     }
 
     public static boolean needGeneratorMapperXml(ConfigJson configJson) {

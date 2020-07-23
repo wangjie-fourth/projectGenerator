@@ -3,7 +3,6 @@ package com.wangjie.service;
 
 import com.wangjie.service.dto.JavaDTO;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 
 /**
@@ -16,17 +15,17 @@ import java.io.IOException;
 
 public interface ProjectGeneratorService {
 
-    void generatorController(JavaDTO javaDTO, @Nullable String controllerPrefix) throws IOException;
+    void generatorController(JavaDTO javaDTO,  String controllerPrefix) throws IOException;
 
-    void generatorService(JavaDTO javaDTO, @Nullable String servicePrefix) throws IOException;
+    void generatorService(JavaDTO javaDTO,  String servicePrefix) throws IOException;
 
-    void generatorEntity(JavaDTO javaDTO, @Nullable String entityPrefix) throws IOException;
+    void generatorEntity(JavaDTO javaDTO,  String entityPrefix) throws IOException;
 
-    void generatorMapperJava(JavaDTO javaDTO, @Nullable String mapperJavaPrefix) throws IOException;
+    void generatorMapperJava(JavaDTO javaDTO,  String mapperJavaPrefix) throws IOException;
 
-    void generatorMapperXml(JavaDTO javaDTO, @Nullable String mapperXmlPrefix) throws IOException;
+    void generatorMapperXml(JavaDTO javaDTO,  String mapperXmlPrefix) throws IOException;
 
-    void generatorManager(JavaDTO javaDTO, @Nullable String managerPrefix) throws IOException;
+    void generatorManager(JavaDTO javaDTO,  String managerPrefix) throws IOException;
 
-    void generatorDTO(JavaDTO generatorVo, @Nullable String dtoPrefix) throws IOException;
+    void generatorDTO(JavaDTO generatorVo,  String dtoPrefix) throws IOException;
 }

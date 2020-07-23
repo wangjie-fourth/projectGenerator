@@ -1,9 +1,6 @@
 package com.wangjie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.CaseFormat;
-import com.wangjie.mapper.ColumnMapper;
-import com.wangjie.mapper.TableMapper;
 import com.wangjie.model.config.ConfigJson;
 import com.wangjie.model.config.Table;
 import com.wangjie.service.ProjectGeneratorService;
@@ -11,23 +8,13 @@ import com.wangjie.service.dto.JavaDTO;
 import com.wangjie.service.impl.DeYiProjectGeneratorServiceImpl;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.io.IOUtils;
-import org.apache.ibatis.datasource.pooled.PooledDataSource;
-import org.apache.ibatis.mapping.Environment;
-import org.apache.ibatis.session.Configuration;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.apache.ibatis.transaction.TransactionFactory;
-import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Mojo;
 
-import javax.sql.DataSource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -68,27 +55,27 @@ public class GeneratorMojo extends AbstractMojo {
             ProjectGeneratorService service = new DeYiProjectGeneratorServiceImpl();
             try {
                 if (needGeneratorController(configJson)) {
-                    String controllerPrefix = getControllerPrefix(configJson);
+                    String controllerPrefix = getConfigPath("/src/main/java/", configJson, "/web/controller/", 1);
                     service.generatorController(javaDTO, controllerPrefix);
                 }
                 if (needGeneratorService(configJson)) {
-                    String servicePrefix = getServicePrefix(configJson);
+                    String servicePrefix = getConfigPath("/src/main/java/", configJson, "/service/", 2);
                     service.generatorService(javaDTO, servicePrefix);
                 }
                 if (needGeneratorManager(configJson)) {
-                    String managerPrefix = getManagerPrefix(configJson);
+                    String managerPrefix = getConfigPath("/src/main/java/", configJson, "/manager/", 3);
                     service.generatorManager(javaDTO, managerPrefix);
                 }
                 if (needGeneratorEntity(configJson)) {
-                    String entityPrefix = getEntityPrefix(configJson);
+                    String entityPrefix = getConfigPath("/src/main/java/", configJson, "/bean/db/", 4);
                     service.generatorEntity(javaDTO, entityPrefix);
                 }
                 if (needGeneratorDTO(configJson)) {
-                    String dtoPrefix = getDtoPrefix(configJson);
+                    String dtoPrefix = getConfigPath("/src/main/java/", configJson, "/bean/dto/", 5);
                     service.generatorDTO(javaDTO, dtoPrefix);
                 }
                 if (needGeneratorMapperJava(configJson)) {
-                    String mapperJavaPrefix = getMapperJavaPrefix(configJson);
+                    String mapperJavaPrefix = getConfigPath("/src/main/java/", configJson, "/mapper/", 6);
                     service.generatorMapperJava(javaDTO, mapperJavaPrefix);
                 }
                 if (needGeneratorMapperXml(configJson)) {
