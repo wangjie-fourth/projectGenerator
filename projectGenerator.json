@@ -5,15 +5,15 @@
   "xmlPrefix": "xmlPrefix",
 
   "jdbc": {
-    "url": "jdbc:mysql://mysql.test.victorplus.cn:3306/boss-cas?useUnicode=true&characterEncoding=utf8",
-    "username": "casuser",
-    "password": "vK4iEUyQS2HGcQ5n1A",
+    "url": "jdbc:mysql://mysql.test3.victorplus.cn:3306/boss-wxht?characterEncoding=utf8",
+    "username": "testuser",
+    "password": "k20tKxQtcelvJIecZq",
     "driverClassName": "com.mysql.cj.jdbc.Driver"
   },
 
   "tables": [
     {
-      "tableName": "p_mortgage_fee_rule_fund_config"
+      "tableName": "weixin_cashier_operator_log"
     }
   ],
 
@@ -21,20 +21,20 @@
   "projectConfig": {
     "packagePrefix": "cn.victorplus.finance.product.mapper.product",
     "controller": {
-      "generator": true,
+      "generator": false,
       "prefix": "cn.victorplus.finance.product.controller"
     },
     "service": {
       "generator": true,
-      "prefix": "cn.victorplus.finance.product.service.impl.product"
+      "prefix": "cn.victorplus.weixin.service.applet.cashier"
     },
     "manager": {
-      "generator": true,
-      "prefix": "cn.victorplus.finance.product.manager"
+      "generator": false,
+      "prefix": "cn.victorplus.weixin.mapper.applet.cashier"
     },
     "mapperJ": {
       "generator": true,
-      "prefix": "cn.victorplus.finance.product.mapper.product"
+      "prefix": "cn.victorplus.weixin.mapper.applet.cashier"
     },
     "mapperX": {
       "generator": true,
@@ -42,10 +42,10 @@
     },
     "entity": {
       "generator": true,
-      "prefix": "cn.victorplus.finance.product.bean.db.product"
+      "prefix": "cn.victorplus.weixin.bean.db.applet.cashier"
     },
     "dto": {
-      "generator": true,
+      "generator": false,
       "prefix": "com.wangjie.test"
     }
   }

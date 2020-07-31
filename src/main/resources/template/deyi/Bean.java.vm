@@ -1,4 +1,4 @@
-package ${java.packagePrefix}.bean.db;
+package ${java.beanPrefix};
 
 import lombok.*;
 import java.math.BigDecimal;

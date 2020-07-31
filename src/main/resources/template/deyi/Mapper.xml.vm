@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="${java.packagePrefix}.mapper.${java.className}Mapper">
+<mapper namespace="${java.mapperJPrefix}.${java.className}Mapper">
 
-    <resultMap id="BaseResultMap" type="${java.packagePrefix}.bean.db.${java.className}">
+    <resultMap id="BaseResultMap" type="${java.beanPrefix}.${java.className}">
 #foreach($attr in $java.attrs)
 #if ($attr.pk)
         <id column="${attr.columnName}" property="${attr.attrName}" jdbcType="${attr.jdbcType}"/>
@@ -29,9 +29,9 @@
 #end
     </sql>
 
-    <select id="listByPage" resultMap="BaseResultMap" parameterType="${java.packagePrefix}.bean.dto.${java.className}DTO">
+    <select id="listByPage" resultMap="BaseResultMap" parameterType="${java.dtoPrefix}.${java.className}DTO">
         SELECT
-            <sql id="baseColumns"/>
+            <include refid="baseColumns"/>
         FROM
             `${java.tableName}` a
         <where>
@@ -62,7 +62,7 @@
         </where>
     </select>
 
-    <update id="updateSelectiveById" parameterType="${java.packagePrefix}.bean.db.${java.className}">
+    <update id="updateSelectiveById" parameterType="${java.beanPrefix}.${java.className}">
         UPDATE `${java.tableName}`
         <set>
 #foreach($attr in $java.attrs)
@@ -82,7 +82,7 @@
 
     <select id="selectById" resultMap="BaseResultMap">
         SELECT
-            <sql id="baseColumns"/>
+            <include refid="baseColumns"/>
         FROM
             `${java.tableName}` a
 #foreach($attr in $java.attrs)

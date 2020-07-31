@@ -1,10 +1,10 @@
-package ${java.packagePrefix}.mapper;
+package ${java.mapperJPrefix};
 
-import ${java.packagePrefix}.bean.db.${java.className};
+import ${java.beanPrefix}.${java.className};
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import java.util.List;
-import ${java.packagePrefix}.bean.dto.${java.className}DTO;
+import ${java.dtoPrefix}.${java.className}DTO;
 
 /**
  * @ClassName ${java.className}Mapper

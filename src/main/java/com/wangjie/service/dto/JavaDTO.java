@@ -34,4 +34,12 @@ public class JavaDTO {
     // 表备注
     private String note;
     private List<AttrDTO> attrs;
+
+    // 各个模块的前缀
+    private String controllerPrefix;
+    private String beanPrefix;
+    private String dtoPrefix;
+    private String managerPrefix;
+    private String mapperJPrefix;
+    private String servicePrefix;
 }

@@ -56,26 +56,33 @@ public class GeneratorMojo extends AbstractMojo {
             try {
                 if (needGeneratorController(configJson)) {
                     String controllerPrefix = getConfigPath("/src/main/java/", configJson, "/web/controller/", 1);
+                    // todo:目前按照最完整的配置信息来写
+                    javaDTO.setControllerPrefix(configJson.getProjectConfig().getController().getPrefix());
                     service.generatorController(javaDTO, controllerPrefix);
                 }
                 if (needGeneratorService(configJson)) {
                     String servicePrefix = getConfigPath("/src/main/java/", configJson, "/service/", 2);
+                    javaDTO.setServicePrefix(configJson.getProjectConfig().getService().getPrefix());
                     service.generatorService(javaDTO, servicePrefix);
                 }
                 if (needGeneratorManager(configJson)) {
                     String managerPrefix = getConfigPath("/src/main/java/", configJson, "/manager/", 3);
+                    javaDTO.setManagerPrefix(configJson.getProjectConfig().getManager().getPrefix());
                     service.generatorManager(javaDTO, managerPrefix);
                 }
                 if (needGeneratorEntity(configJson)) {
                     String entityPrefix = getConfigPath("/src/main/java/", configJson, "/bean/db/", 4);
+                    javaDTO.setBeanPrefix(configJson.getProjectConfig().getEntity().getPrefix());
                     service.generatorEntity(javaDTO, entityPrefix);
                 }
                 if (needGeneratorDTO(configJson)) {
                     String dtoPrefix = getConfigPath("/src/main/java/", configJson, "/bean/dto/", 5);
+                    javaDTO.setDtoPrefix(configJson.getProjectConfig().getDto().getPrefix());
                     service.generatorDTO(javaDTO, dtoPrefix);
                 }
                 if (needGeneratorMapperJava(configJson)) {
                     String mapperJavaPrefix = getConfigPath("/src/main/java/", configJson, "/mapper/", 6);
+                    javaDTO.setMapperJPrefix(configJson.getProjectConfig().getMapperJ().getPrefix());
                     service.generatorMapperJava(javaDTO, mapperJavaPrefix);
                 }
                 if (needGeneratorMapperXml(configJson)) {

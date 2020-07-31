@@ -1,12 +1,12 @@
-package ${java.packagePrefix}.service;
+package ${java.servicePrefix};
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
-import ${java.packagePrefix}.bean.db.${java.className};
-import ${java.packagePrefix}.mapper.${java.className}Mapper;
-import ${java.packagePrefix}.manager.${java.className}Manager;
-import ${java.packagePrefix}.bean.dto.${java.className}DTO;
+import ${java.beanPrefix}.${java.className};
+import ${java.mapperJPrefix}.${java.className}Mapper;
+import ${java.managerPrefix}.${java.className}Manager;
+import ${java.dtoPrefix}.${java.className}DTO;
 import java.util.Objects;
 import cn.victorplus.car.base.bean.base.page.Pagination;
 import java.util.List;

@@ -1,9 +1,9 @@
-package ${java.packagePrefix}.manager;
+package ${java.managerPrefix};
 
 import org.springframework.stereotype.Service;
-import ${java.packagePrefix}.mapper.${java.className}Mapper;
+import ${java.mapperJPrefix}.${java.className}Mapper;
 import lombok.extern.slf4j.Slf4j;
-import ${java.packagePrefix}.bean.db.${java.className};
+import ${java.beanPrefix}.${java.className};
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.function.Function;

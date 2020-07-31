@@ -1,8 +1,8 @@
-package ${java.packagePrefix}.bean.dto;
+package ${java.dtoPrefix};
 
 import lombok.*;
 import cn.victorplus.car.base.bean.base.page.Pagination;
-import ${java.packagePrefix}.bean.db.${java.className};
+import ${java.beanPrefix}.${java.className};
 import java.util.List;
 import java.math.BigDecimal;
 import java.util.Date;
