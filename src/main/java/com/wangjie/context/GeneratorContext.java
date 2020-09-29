@@ -3,7 +3,7 @@ package com.wangjie.context;
 
 import com.wangjie.model.config.ConfigJson;
 import com.wangjie.model.config.ProjectMetaInfo;
-import com.wangjie.service.dto.JavaDTO;
+import com.wangjie.model.dto.JavaDTO;
 import lombok.*;
 
 @Getter

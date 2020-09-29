@@ -1,4 +1,4 @@
-package com.wangjie.service;
+package com.wangjie.generator;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.velocity.Template;

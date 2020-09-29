@@ -1,4 +1,4 @@
-package com.wangjie.service.dto;
+package com.wangjie.model.dto;
 
 
 import lombok.Getter;

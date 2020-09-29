@@ -1,4 +1,4 @@
-package com.wangjie.service;
+package com.wangjie.generator;
 
 import com.wangjie.context.GeneratorContext;
 

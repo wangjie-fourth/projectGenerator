@@ -1,7 +1,7 @@
-package com.wangjie.service.impl;
+package com.wangjie.generator.impl;
 
 import com.wangjie.context.GeneratorContext;
-import com.wangjie.service.AbstractGeneratorService;
+import com.wangjie.generator.AbstractGeneratorService;
 
 import java.io.IOException;
 
