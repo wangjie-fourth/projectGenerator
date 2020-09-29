@@ -22,13 +22,9 @@ public class ConfigJson {
 
     private String email;
 
-    private String packagePrefix;
-
-    private String xmlPrefix;
-
     private Jdbc jdbc;
 
-    private List<Table> tables;
+    private List<TableConfig> tableConfigs;
 
     private ProjectConfig projectConfig;
 }

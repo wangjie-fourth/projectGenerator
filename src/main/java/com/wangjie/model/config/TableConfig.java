@@ -16,10 +16,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuppressFBWarnings("EI_EXPOSE_REP")
-public class Table {
+public class TableConfig {
     private String tableName;
-
-    private String className;
-
-    private boolean generatorEnum;
 }

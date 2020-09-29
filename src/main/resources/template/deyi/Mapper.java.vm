@@ -4,7 +4,6 @@ import ${java.beanPrefix}.${java.className};
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import java.util.List;
-import ${java.dtoPrefix}.${java.className}DTO;
 
 /**
  * @ClassName ${java.className}Mapper
@@ -16,14 +15,6 @@ import ${java.dtoPrefix}.${java.className}DTO;
 @Mapper
 @Repository
 public interface ${java.className}Mapper  {
-
-    /**
-     * 【分页查询数据】
-     *
-     * @param   ${java.paramName}DTO 查询参数
-     * @return  查询列表数据
-     */
-    List<${java.className}> listByPage(${java.className}DTO ${java.paramName}DTO);
 
     /**
      * 【根据id更新数据】

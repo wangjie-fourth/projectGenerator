@@ -29,7 +29,7 @@
     "driverClassName": "com.mysql.cj.jdbc.Driver"
   },
 
-  "tables": [
+  "tableConfigs": [
     {
       "tableName": "table_info"
     }
@@ -99,7 +99,7 @@ mvn projectGenerator:generator
     "password": "root",
     "driverClassName": "com.mysql.cj.jdbc.Driver"
   },
-  "tables": [
+  "tableConfigs": [
     {
       "tableName": "table_info"
     }
@@ -149,7 +149,7 @@ mvn projectGenerator:generator
 3、指定表名所对应的`Class`名称
 ```json
 {
-  "tables": [
+  "tableConfigs": [
     {
       "tableName": "table_info",
       "className": ""
@@ -163,3 +163,11 @@ mvn projectGenerator:generator
 1、`packagePrefix`配置似乎有点无用，不如删除？
 2、假设在一个表中添加字段，如何更新Mapper.xml文件？
 - 只在where条件、resultMap中添加字段，
+
+---
+1、不要过度设计，刚开始只要做出来基础功能
+我在做的时候，把DTO、Manager类都生成出来，但其实这些并不是需要经常生成出来，这样我每次改错时，还要再改他们；
+配置类设计的时候，我又考虑如何缩减配置，这也让后来修改增加难度。
+这些东西完全可以等基础功能做好之后，再去弥补
+
+

@@ -1,6 +1,7 @@
 package com.wangjie.service;
 
 
+import com.wangjie.context.GeneratorContext;
 import com.wangjie.service.dto.JavaDTO;
 
 import java.io.IOException;
@@ -25,7 +26,5 @@ public interface ProjectGeneratorService {
 
     void generatorMapperXml(JavaDTO javaDTO,  String mapperXmlPrefix) throws IOException;
 
-    void generatorManager(JavaDTO javaDTO,  String managerPrefix) throws IOException;
-
-    void generatorDTO(JavaDTO generatorVo,  String dtoPrefix) throws IOException;
+    void generator(GeneratorContext generatorContext) throws Exception;
 }

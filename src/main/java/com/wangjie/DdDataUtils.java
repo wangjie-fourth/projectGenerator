@@ -40,7 +40,6 @@ public class DdDataUtils {
         String paramName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, tableName);
         String className = Character.toUpperCase(paramName.charAt(0)) + paramName.substring(1);
         JavaDTO javaDTO = JavaDTO.builder()
-                .packagePrefix(configJson.getPackagePrefix())
                 .className(className)
                 .paramName(paramName)
                 .tableName(tableName)
@@ -76,7 +75,11 @@ public class DdDataUtils {
                         attr.setJdbcType("INTEGER");
                         break;
                     case "timestamp":
+                        attr.setAttrType("Date");
+                        attr.setJdbcType("TIMESTAMP");
+                        break;
                     case "date":
+                    case "datetime":
                         attr.setAttrType("Date");
                         attr.setJdbcType("DATE");
                         break;

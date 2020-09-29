@@ -53,31 +53,11 @@ public class WorkFlowUtils {
                 }
                 break;
             }
-            case 3: {
-                if (Objects.nonNull(configJson.getProjectConfig())
-                        && Objects.nonNull(configJson.getProjectConfig().getController())
-                        && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())) {
-                    String path = String.join("/", configJson.getProjectConfig().getManager().getPrefix().split("\\."));
-                    basePrefix = basePrefix + "/" + path + "/";
-                    return basePrefix;
-                }
-                break;
-            }
             case 4: {
                 if (Objects.nonNull(configJson.getProjectConfig())
                         && Objects.nonNull(configJson.getProjectConfig().getController())
                         && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())) {
                     String path = String.join("/", configJson.getProjectConfig().getEntity().getPrefix().split("\\."));
-                    basePrefix = basePrefix + "/" + path + "/";
-                    return basePrefix;
-                }
-                break;
-            }
-            case 5: {
-                if (Objects.nonNull(configJson.getProjectConfig())
-                        && Objects.nonNull(configJson.getProjectConfig().getController())
-                        && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())) {
-                    String path = String.join("/", configJson.getProjectConfig().getDto().getPrefix().split("\\."));
                     basePrefix = basePrefix + "/" + path + "/";
                     return basePrefix;
                 }
@@ -93,19 +73,6 @@ public class WorkFlowUtils {
                 }
                 break;
             }
-        }
-
-        if (Objects.nonNull(configJson.getProjectConfig())
-                && Objects.nonNull(configJson.getPackagePrefix())) {
-            String path = String.join("/", configJson.getPackagePrefix().split("\\."));
-            basePrefix = basePrefix + "/" + path + "/";
-            return basePrefix;
-        }
-
-        if (Objects.nonNull(configJson.getPackagePrefix())) {
-            String path = String.join("/", configJson.getPackagePrefix().split("\\."));
-            basePrefix = basePrefix + "/" + path + "/";
-            return basePrefix;
         }
 
         throw new RuntimeException("请配置路径信息");
@@ -125,23 +92,10 @@ public class WorkFlowUtils {
         return true;
     }
 
-    public static boolean needGeneratorDTO(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getDto())) {
-            return configJson.getProjectConfig().getDto().isGenerator();
-        }
-        return true;
-    }
 
     public static boolean needGeneratorEntity(ConfigJson configJson) {
         if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getEntity())) {
             return configJson.getProjectConfig().getEntity().isGenerator();
-        }
-        return true;
-    }
-
-    public static boolean needGeneratorManager(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getManager())) {
-            return configJson.getProjectConfig().getManager().isGenerator();
         }
         return true;
     }

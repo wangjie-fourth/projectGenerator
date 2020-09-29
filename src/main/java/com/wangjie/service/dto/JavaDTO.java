@@ -21,7 +21,6 @@ import java.util.List;
 @NoArgsConstructor
 public class JavaDTO {
     // 包前缀
-    private String packagePrefix;
     private String email;
     private Date dateTime;
     private String author;
@@ -38,8 +37,6 @@ public class JavaDTO {
     // 各个模块的前缀
     private String controllerPrefix;
     private String beanPrefix;
-    private String dtoPrefix;
-    private String managerPrefix;
     private String mapperJPrefix;
     private String servicePrefix;
 }

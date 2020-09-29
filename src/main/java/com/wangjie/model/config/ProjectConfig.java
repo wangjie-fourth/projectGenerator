@@ -17,19 +17,13 @@ import lombok.*;
 @NoArgsConstructor
 public class ProjectConfig {
 
-    private String packagePrefix;
-
     private GeneratorConfig controller;
 
     private GeneratorConfig service;
-
-    private GeneratorConfig manager;
 
     private GeneratorConfig mapperJ;
 
     private GeneratorConfig mapperX;
 
     private GeneratorConfig entity;
-
-    private GeneratorConfig dto;
 }

@@ -2,10 +2,12 @@ package com.wangjie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wangjie.model.config.ConfigJson;
-import com.wangjie.model.config.Table;
-import com.wangjie.service.ProjectGeneratorService;
+import com.wangjie.context.GeneratorContext;
+import com.wangjie.model.config.ProjectMetaInfo;
+import com.wangjie.model.config.TableConfig;
+import com.wangjie.service.GeneratorService;
 import com.wangjie.service.dto.JavaDTO;
-import com.wangjie.service.impl.DeYiProjectGeneratorServiceImpl;
+import com.wangjie.service.impl.*;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.AbstractMojo;
@@ -14,6 +16,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Objects;
@@ -32,73 +35,87 @@ import static com.wangjie.WorkFlowUtils.*;
 public class GeneratorMojo extends AbstractMojo {
     // 定义jackson对象
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    public static String projectDirector = "";
 
 
     public void execute() {
-        projectDirector = System.getProperty("user.dir");
+        GeneratorContext generatorContext = new GeneratorContext();
+        checkForNecessarySystemProperties(generatorContext);
 
         ConfigJson configJson = readConfigFile();
+        generatorContext.setConfigJson(configJson);
 
-        // 按照表
+        // 判断是否有必要生成数据
         getLog().info("生成java文件");
-        if (Objects.isNull(configJson)
-                || Objects.isNull(configJson.getTables())
-                || configJson.getTables().size() == 0) {
+        if (Objects.isNull(generatorContext.getConfigJson())
+                || Objects.isNull(generatorContext.getConfigJson().getTableConfigs())
+                || generatorContext.getConfigJson().getTableConfigs().size() == 0) {
             getLog().info("无需要生成的表信息");
             return;
         }
-        for (Table table : configJson.getTables()) {
-            JavaDTO javaDTO = DdDataUtils.readDataFromDB(table.getTableName(), configJson);
+
+        for (TableConfig tableConfig : configJson.getTableConfigs()) {
+            JavaDTO javaDTO = DdDataUtils.readDataFromDB(tableConfig.getTableName(), configJson);
+            javaDTO.setControllerPrefix(generatorContext.getConfigJson().getProjectConfig().getController().getPrefix());
+            javaDTO.setServicePrefix(generatorContext.getConfigJson().getProjectConfig().getService().getPrefix());
+            javaDTO.setBeanPrefix(generatorContext.getConfigJson().getProjectConfig().getEntity().getPrefix());
+            javaDTO.setMapperJPrefix(generatorContext.getConfigJson().getProjectConfig().getMapperJ().getPrefix());
+
+            generatorContext.setJavaDTO(javaDTO);
 
             // 生成指定的文件，并放到指定的位置
-            ProjectGeneratorService service = new DeYiProjectGeneratorServiceImpl();
+            GeneratorService service = null;
             try {
-                if (needGeneratorController(configJson)) {
-                    String controllerPrefix = getConfigPath("/src/main/java/", configJson, "/web/controller/", 1);
-                    // todo:目前按照最完整的配置信息来写
-                    javaDTO.setControllerPrefix(configJson.getProjectConfig().getController().getPrefix());
-                    service.generatorController(javaDTO, controllerPrefix);
+                if (needGeneratorController(generatorContext.getConfigJson())) {
+                    service = new ControllerGeneratorServiceImpl();
+                    String controllerPrefix = getConfigPath("/src/main/java/", generatorContext.getConfigJson(), "/web/controller/", 1);
+                    generatorContext.setControllerPrefix(controllerPrefix);
+                    service.generator(generatorContext);
                 }
-                if (needGeneratorService(configJson)) {
-                    String servicePrefix = getConfigPath("/src/main/java/", configJson, "/service/", 2);
-                    javaDTO.setServicePrefix(configJson.getProjectConfig().getService().getPrefix());
-                    service.generatorService(javaDTO, servicePrefix);
+                if (needGeneratorService(generatorContext.getConfigJson())) {
+                    service = new ServiceGeneratorServiceImpl();
+                    String servicePrefix = getConfigPath("/src/main/java/", generatorContext.getConfigJson(), "/service/", 2);
+                    generatorContext.setServicePrefix(servicePrefix);
+                    service.generator(generatorContext);
                 }
-                if (needGeneratorManager(configJson)) {
-                    String managerPrefix = getConfigPath("/src/main/java/", configJson, "/manager/", 3);
-                    javaDTO.setManagerPrefix(configJson.getProjectConfig().getManager().getPrefix());
-                    service.generatorManager(javaDTO, managerPrefix);
+                if (needGeneratorEntity(generatorContext.getConfigJson())) {
+                    service = new EntityGeneratorServiceImpl();
+                    String entityPrefix = getConfigPath("/src/main/java/", generatorContext.getConfigJson(), "/bean/db/", 4);
+                    generatorContext.setEntityPrefix(entityPrefix);
+                    service.generator(generatorContext);
                 }
-                if (needGeneratorEntity(configJson)) {
-                    String entityPrefix = getConfigPath("/src/main/java/", configJson, "/bean/db/", 4);
-                    javaDTO.setBeanPrefix(configJson.getProjectConfig().getEntity().getPrefix());
-                    service.generatorEntity(javaDTO, entityPrefix);
+                if (needGeneratorMapperJava(generatorContext.getConfigJson())) {
+                    service = new MapperJGeneratorServiceImpl();
+                    String mapperJavaPrefix = getConfigPath("/src/main/java/", generatorContext.getConfigJson(), "/mapper/", 6);
+                    generatorContext.setMapperJPrefix(mapperJavaPrefix);
+                    service.generator(generatorContext);
                 }
-                if (needGeneratorDTO(configJson)) {
-                    String dtoPrefix = getConfigPath("/src/main/java/", configJson, "/bean/dto/", 5);
-                    javaDTO.setDtoPrefix(configJson.getProjectConfig().getDto().getPrefix());
-                    service.generatorDTO(javaDTO, dtoPrefix);
-                }
-                if (needGeneratorMapperJava(configJson)) {
-                    String mapperJavaPrefix = getConfigPath("/src/main/java/", configJson, "/mapper/", 6);
-                    javaDTO.setMapperJPrefix(configJson.getProjectConfig().getMapperJ().getPrefix());
-                    service.generatorMapperJava(javaDTO, mapperJavaPrefix);
-                }
-                if (needGeneratorMapperXml(configJson)) {
-                    String mapperXmlPrefix = getMapperXmlPrefix(configJson);
-                    service.generatorMapperXml(javaDTO, mapperXmlPrefix);
+                if (needGeneratorMapperXml(generatorContext.getConfigJson())) {
+                    service = new MapperXGeneratorServiceImpl();
+                    String mapperXmlPrefix = getMapperXmlPrefix(generatorContext.getConfigJson());
+                    generatorContext.setMapperXPrefix(mapperXmlPrefix);
+                    service.generator(generatorContext);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
 
         }
     }
 
+    private void checkForNecessarySystemProperties(GeneratorContext generatorContext) {
+        ProjectMetaInfo projectMetaInfo = new ProjectMetaInfo();
+
+        String projectDirector = System.getProperty("user.dir");
+        if (projectDirector.isEmpty()) {
+            throw new RuntimeException("缺少必要的系统属性user.dir");
+        }
+        projectMetaInfo.setProjectDirector(projectDirector);
+
+        generatorContext.setProjectMetaInfo(projectMetaInfo);
+    }
+
     private ConfigJson readConfigFile() {
         getLog().info("读取配置文件：项目根目录下的projectGenerator.json");
-        // 读取配置文件：项目根目录下的projectGenerator.json
         try {
             File file = new File("projectGenerator.json");
             StringBuilder configInfo = new StringBuilder();
@@ -112,6 +129,10 @@ public class GeneratorMojo extends AbstractMojo {
 
 
     public static void main(String[] args) {
+        BigDecimal a = new BigDecimal("0.00");
+        if (a.equals(BigDecimal.ZERO)) {
+            System.out.println("a = " + a);
+        }
         new GeneratorMojo().execute();
     }
 }

@@ -1,40 +1,33 @@
 {
   "author": "wangjie",
   "email": "wangjie@dycjr.com",
-  "packagePrefix": "test",
-  "xmlPrefix": "xmlPrefix",
 
   "jdbc": {
-    "url": "jdbc:mysql://mysql.test3.victorplus.cn:3306/boss-wxht?characterEncoding=utf8",
-    "username": "testuser",
-    "password": "k20tKxQtcelvJIecZq",
+    "url": "jdbc:mysql://mysql.dev.victorplus.cn:3306/boss-fps?characterEncoding=utf8&useSSL=false",
+    "username": "casuser",
+    "password": "vK4iEUyQS2HGcQ5n1A",
     "driverClassName": "com.mysql.cj.jdbc.Driver"
   },
 
-  "tables": [
+  "tableConfigs": [
     {
-      "tableName": "weixin_cashier_operator_log"
+      "tableName": "pre_post_rule_condition"
     }
   ],
 
 
   "projectConfig": {
-    "packagePrefix": "cn.victorplus.finance.product.mapper.product",
     "controller": {
-      "generator": false,
+      "generator": true,
       "prefix": "cn.victorplus.finance.product.controller"
     },
     "service": {
       "generator": true,
       "prefix": "cn.victorplus.weixin.service.applet.cashier"
     },
-    "manager": {
-      "generator": false,
-      "prefix": "cn.victorplus.weixin.mapper.applet.cashier"
-    },
     "mapperJ": {
       "generator": true,
-      "prefix": "cn.victorplus.weixin.mapper.applet.cashier"
+      "prefix": "cn.victorplus.boss.finance.mapper.cashier"
     },
     "mapperX": {
       "generator": true,
@@ -42,11 +35,7 @@
     },
     "entity": {
       "generator": true,
-      "prefix": "cn.victorplus.weixin.bean.db.applet.cashier"
-    },
-    "dto": {
-      "generator": false,
-      "prefix": "com.wangjie.test"
+      "prefix": "cn.victorplus.boss.finance.bean.db.cashier"
     }
   }
 }

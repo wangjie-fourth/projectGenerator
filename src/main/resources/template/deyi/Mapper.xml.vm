@@ -29,7 +29,7 @@
 #end
     </sql>
 
-    <select id="listByPage" resultMap="BaseResultMap" parameterType="${java.dtoPrefix}.${java.className}DTO">
+    <select id="listByPage" resultMap="BaseResultMap" parameterType="${java.beanPrefix}.${java.className}">
         SELECT
             <include refid="baseColumns"/>
         FROM
@@ -92,7 +92,7 @@
 #end
     </select>
     
-    <insert id="insertSelective" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="${java.packagePrefix}.bean.db.${java.className}">
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="${java.beanPrefix}.bean.db.${java.className}">
         INSERT INTO `${java.tableName}`
         <trim prefix="(" suffix=")" suffixOverrides=",">
 #foreach($attr in $java.attrs)
@@ -129,10 +129,6 @@
             <if test="${attr.attrName} != null and ${attr.attrName} != ''">
                 AND a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
             </if>
-#elseif($attr.jdbcType == "DATE")
-            <if test="${attr.attrName}Begin != null and ${attr.attrName}End != null">
-                AND a.${attr.columnName} between #{${attr.attrName}Begin,jdbcType=${attr.jdbcType}} and  #{${attr.attrName}End,jdbcType=${attr.jdbcType}}
-            </if>
 #else
             <if test="${attr.attrName} != null">
                 AND a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
@@ -145,7 +141,7 @@
 
     <select id="selectBySelective" resultMap="BaseResultMap">
         SELECT
-            <sql id="baseColumns"/>
+            <include refid="baseColumns"/>
         FROM
             `${java.tableName}` a
         <where>
@@ -161,10 +157,6 @@
 #elseif($attr.jdbcType == "VARCHAR")
             <if test="${attr.attrName} != null and ${attr.attrName} != ''">
                 AND a.${attr.columnName} =  #{${attr.attrName},jdbcType=${attr.jdbcType}}
-            </if>
-#elseif($attr.jdbcType == "DATE")
-            <if test="${attr.attrName}Begin != null and ${attr.attrName}End != null">
-                AND a.${attr.columnName} between #{${attr.attrName}Begin,jdbcType=${attr.jdbcType}} and  #{${attr.attrName}End,jdbcType=${attr.jdbcType}}
             </if>
 #else
             <if test="${attr.attrName} != null">
