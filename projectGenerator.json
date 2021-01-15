@@ -17,14 +17,6 @@
 
 
   "projectConfig": {
-    "controller": {
-      "generator": false,
-      "prefix": "cn.victorplus.finance.product.controller"
-    },
-    "service": {
-      "generator": false,
-      "prefix": "cn.victorplus.weixin.service.applet.cashier"
-    },
     "mapperJ": {
       "generator": true,
       "prefix": "cn.victorplus.boss.settle.mapper"

@@ -54,8 +54,6 @@ public class GeneratorMojo extends AbstractMojo {
 
         for (TableConfig tableConfig : configJson.getTableConfigs()) {
             JavaDTO javaDTO = DdDataUtils.readDataFromDB(tableConfig.getTableName(), configJson);
-            javaDTO.setControllerPrefix(generatorContext.getConfigJson().getProjectConfig().getController().getPrefix());
-            javaDTO.setServicePrefix(generatorContext.getConfigJson().getProjectConfig().getService().getPrefix());
             javaDTO.setBeanPrefix(generatorContext.getConfigJson().getProjectConfig().getEntity().getPrefix());
             javaDTO.setMapperJPrefix(generatorContext.getConfigJson().getProjectConfig().getMapperJ().getPrefix());
 
@@ -64,18 +62,6 @@ public class GeneratorMojo extends AbstractMojo {
             // 生成指定的文件，并放到指定的位置
             GeneratorService service = null;
             try {
-                if (needGeneratorController(generatorContext.getConfigJson())) {
-                    service = new ControllerGeneratorServiceImpl();
-                    String controllerPrefix = getConfigPath("/src/main/java/", generatorContext.getConfigJson(), "/web/controller/", 1);
-                    generatorContext.setControllerPrefix(controllerPrefix);
-                    service.generator(generatorContext);
-                }
-                if (needGeneratorService(generatorContext.getConfigJson())) {
-                    service = new ServiceGeneratorServiceImpl();
-                    String servicePrefix = getConfigPath("/src/main/java/", generatorContext.getConfigJson(), "/service/", 2);
-                    generatorContext.setServicePrefix(servicePrefix);
-                    service.generator(generatorContext);
-                }
                 if (needGeneratorEntity(generatorContext.getConfigJson())) {
                     service = new EntityGeneratorServiceImpl();
                     String entityPrefix = getConfigPath("/src/main/java/", generatorContext.getConfigJson(), "/bean/db/", 4);

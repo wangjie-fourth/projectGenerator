@@ -33,30 +33,9 @@ public class WorkFlowUtils {
 
     public static String getConfigPath(String basePrefix, ConfigJson configJson, String specialPath, int i) {
         switch (i) {
-            case 1: {
-                if (Objects.nonNull(configJson.getProjectConfig())
-                        && Objects.nonNull(configJson.getProjectConfig().getController())
-                        && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())) {
-                    String path = String.join("/", configJson.getProjectConfig().getController().getPrefix().split("\\."));
-                    basePrefix = basePrefix + "/" + path + "/";
-                    return basePrefix;
-                }
-                break;
-            }
-            case 2: {
-                if (Objects.nonNull(configJson.getProjectConfig())
-                        && Objects.nonNull(configJson.getProjectConfig().getController())
-                        && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())) {
-                    String path = String.join("/", configJson.getProjectConfig().getService().getPrefix().split("\\."));
-                    basePrefix = basePrefix + "/" + path + "/";
-                    return basePrefix;
-                }
-                break;
-            }
+
             case 4: {
-                if (Objects.nonNull(configJson.getProjectConfig())
-                        && Objects.nonNull(configJson.getProjectConfig().getController())
-                        && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())) {
+                if (Objects.nonNull(configJson.getProjectConfig())) {
                     String path = String.join("/", configJson.getProjectConfig().getEntity().getPrefix().split("\\."));
                     basePrefix = basePrefix + "/" + path + "/";
                     return basePrefix;
@@ -64,9 +43,7 @@ public class WorkFlowUtils {
                 break;
             }
             case 6: {
-                if (Objects.nonNull(configJson.getProjectConfig())
-                        && Objects.nonNull(configJson.getProjectConfig().getController())
-                        && Objects.nonNull(configJson.getProjectConfig().getController().getPrefix())) {
+                if (Objects.nonNull(configJson.getProjectConfig())) {
                     String path = String.join("/", configJson.getProjectConfig().getMapperJ().getPrefix().split("\\."));
                     basePrefix = basePrefix + "/" + path + "/";
                     return basePrefix;
@@ -100,17 +77,5 @@ public class WorkFlowUtils {
         return true;
     }
 
-    public static boolean needGeneratorService(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getService())) {
-            return configJson.getProjectConfig().getService().isGenerator();
-        }
-        return true;
-    }
 
-    public static boolean needGeneratorController(ConfigJson configJson) {
-        if (Objects.nonNull(configJson.getProjectConfig()) && Objects.nonNull(configJson.getProjectConfig().getController())) {
-            return configJson.getProjectConfig().getController().isGenerator();
-        }
-        return true;
-    }
 }

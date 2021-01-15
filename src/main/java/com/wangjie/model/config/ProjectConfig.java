@@ -17,9 +17,7 @@ import lombok.*;
 @NoArgsConstructor
 public class ProjectConfig {
 
-    private GeneratorConfig controller;
 
-    private GeneratorConfig service;
 
     private GeneratorConfig mapperJ;
 
