@@ -16,7 +16,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Objects;
@@ -129,10 +128,6 @@ public class GeneratorMojo extends AbstractMojo {
 
 
     public static void main(String[] args) {
-        BigDecimal a = new BigDecimal("0.00");
-        if (a.equals(BigDecimal.ZERO)) {
-            System.out.println("a = " + a);
-        }
         new GeneratorMojo().execute();
     }
 }

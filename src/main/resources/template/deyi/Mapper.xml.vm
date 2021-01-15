@@ -92,7 +92,7 @@
 #end
     </select>
     
-    <insert id="insertSelective" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="${java.beanPrefix}.bean.db.${java.className}">
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="${java.beanPrefix}.${java.className}">
         INSERT INTO `${java.tableName}`
         <trim prefix="(" suffix=")" suffixOverrides=",">
 #foreach($attr in $java.attrs)
