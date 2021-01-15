@@ -3,31 +3,31 @@
   "email": "wangjie@dycjr.com",
 
   "jdbc": {
-    "url": "jdbc:mysql://mysql.dev.victorplus.cn:3306/boss-fps?characterEncoding=utf8&useSSL=false",
-    "username": "casuser",
-    "password": "vK4iEUyQS2HGcQ5n1A",
+    "url": "jdbc:mysql://mysql.dev.victorplus.cn:3306/boss-account?characterEncoding=utf8&useSSL=false",
+    "username": "accountuser",
+    "password": "1cM7J4ii8pKTnNACtN",
     "driverClassName": "com.mysql.cj.jdbc.Driver"
   },
 
   "tableConfigs": [
     {
-      "tableName": "pre_post_rule_condition"
+      "tableName": "acct_auto_overdue_compensatory"
     }
   ],
 
 
   "projectConfig": {
     "controller": {
-      "generator": true,
+      "generator": false,
       "prefix": "cn.victorplus.finance.product.controller"
     },
     "service": {
-      "generator": true,
+      "generator": false,
       "prefix": "cn.victorplus.weixin.service.applet.cashier"
     },
     "mapperJ": {
       "generator": true,
-      "prefix": "cn.victorplus.boss.finance.mapper.cashier"
+      "prefix": "cn.victorplus.boss.settle.mapper"
     },
     "mapperX": {
       "generator": true,
@@ -35,7 +35,7 @@
     },
     "entity": {
       "generator": true,
-      "prefix": "cn.victorplus.boss.finance.bean.db.cashier"
+      "prefix": "cn.victorplus.boss.settle.bean.db"
     }
   }
 }

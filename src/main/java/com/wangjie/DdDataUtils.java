@@ -80,6 +80,7 @@ public class DdDataUtils {
                         break;
                     case "date":
                     case "datetime":
+                    case "time":
                         attr.setAttrType("Date");
                         attr.setJdbcType("DATE");
                         break;
