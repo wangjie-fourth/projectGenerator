@@ -19,18 +19,6 @@ public abstract class AbstractGeneratorService implements GeneratorService {
 
     protected static final VelocityContext context;
 
-    /**
-     * 模仿Spring的refresh方法，使用模版方法来实现
-     */
-    @Override
-    public GeneratorContext generator(GeneratorContext generatorContext) throws IOException {
-
-        // 将渲染好的字符信息，写入本地文件中
-        // todo:还要将具体得实现再次具体拆分
-
-        return null;
-    }
-
     static {
         // 模版引擎
         Properties p = new Properties();

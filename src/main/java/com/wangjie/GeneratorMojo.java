@@ -64,13 +64,13 @@ public class GeneratorMojo extends AbstractMojo {
             try {
                 if (needGeneratorEntity(generatorContext.getConfigJson())) {
                     service = new EntityGeneratorServiceImpl();
-                    String entityPrefix = getConfigPath("/src/main/java/", generatorContext.getConfigJson(), "/bean/db/", 4);
+                    String entityPrefix = getConfigPath("/src/main/java", generatorContext.getConfigJson(), null, 4);
                     generatorContext.setEntityPrefix(entityPrefix);
                     service.generator(generatorContext);
                 }
                 if (needGeneratorMapperJava(generatorContext.getConfigJson())) {
                     service = new MapperJGeneratorServiceImpl();
-                    String mapperJavaPrefix = getConfigPath("/src/main/java/", generatorContext.getConfigJson(), "/mapper/", 6);
+                    String mapperJavaPrefix = getConfigPath("/src/main/java", generatorContext.getConfigJson(), null, 6);
                     generatorContext.setMapperJPrefix(mapperJavaPrefix);
                     service.generator(generatorContext);
                 }
@@ -95,7 +95,6 @@ public class GeneratorMojo extends AbstractMojo {
             throw new RuntimeException("缺少必要的系统属性user.dir");
         }
         projectMetaInfo.setProjectDirector(projectDirector);
-
         generatorContext.setProjectMetaInfo(projectMetaInfo);
     }
 

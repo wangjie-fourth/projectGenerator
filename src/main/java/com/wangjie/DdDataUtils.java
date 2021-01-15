@@ -63,7 +63,7 @@ public class DdDataUtils {
             // 列表模型 转 实体模型
             for (Column column : result) {
                 AttrDTO attr = new AttrDTO();
-                // 数据类型转换
+                // 数据类型转换 todo：DSL转换一下？
                 switch (column.getDataType()) {
                     case "bigint":
                         attr.setAttrType("Long");

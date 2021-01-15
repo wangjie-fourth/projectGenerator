@@ -18,8 +18,6 @@ public class GeneratorContext {
     // 按单个表做记录
     private JavaDTO javaDTO;
 
-    private String controllerPrefix;
-    private String servicePrefix;
     private String mapperJPrefix;
     private String mapperXPrefix;
     private String entityPrefix;

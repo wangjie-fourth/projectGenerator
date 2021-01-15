@@ -13,7 +13,6 @@ import java.util.Objects;
  **/
 public class WorkFlowUtils {
 
-    private static final String javaPrefix = "/src/main/java";
 
     private static final String xmlPrefix = "/src/main/resources";
 
