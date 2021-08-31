@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.wangjie.fourth.mapper.TableMapper">
+
+    <resultMap id="BaseResultMap" type="com.github.wangjie.fourth.model.db.Table">
+        <result column="engine" jdbcType="VARCHAR" property="engine"/>
+        <result column="tableName" jdbcType="VARCHAR" property="tableName"/>
+        <result column="createTime" jdbcType="VARCHAR" property="createTime"/>
+        <result column="tableComment" jdbcType="VARCHAR" property="tableComment"/>
+    </resultMap>
+
+    <select id="queryTable" resultMap="BaseResultMap">
+        select
+            table_name tableName,
+            engine,
+            table_comment tableComment,
+            create_time createTime
+        from
+            information_schema.tables
+        where
+            table_name = #{tableName}
+        ORDER BY create_time desc
+		LIMIT 0,1
+	</select>
+
+    <select id="queryTableList" resultMap="BaseResultMap">
+        SELECT
+        t.currentSchema,
+        t.tableSchema,
+        t.tableName,
+        t.engine,
+        t.tableComment,
+        t.createTime
+        FROM
+        (
+        SELECT
+        (SELECT DATABASE()) currentSchema,
+        table_schema tableSchema,
+        table_name tableName,
+        engine,
+        table_comment tableComment,
+        create_time createTime
+        FROM
+        information_schema.TABLES
+        WHERE
+        table_schema NOT IN (
+        'information_schema',
+        'performance_schema',
+        'mysql',
+        'sys'
+        )
+        AND table_name NOT IN ('flyway_schema_history')
+        ) t
+        WHERE (t.currentSchema IS NULL OR t.tableSchema = (SELECT DATABASE()))
+        <if test="tableName != null and tableName.trim() != ''">
+            and t.tableName like concat('%', #{tableName}, '%')
+        </if>
+        order by t.createTime desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+</mapper>

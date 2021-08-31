@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.wangjie.fourth.mapper.ColumnMapper">
+    <resultMap id="BaseResultMap" type="com.github.wangjie.fourth.model.db.Column">
+        <result column="columnName" jdbcType="VARCHAR" property="columnName"/>
+        <result column="columnComment" jdbcType="VARCHAR" property="columnComment"/>
+        <result column="columnKey" jdbcType="VARCHAR" property="columnKey"/>
+        <result column="dataType" jdbcType="VARCHAR" property="dataType"/>
+        <result column="columnType" jdbcType="VARCHAR" property="columnType"/>
+        <result column="columnDefault" jdbcType="VARCHAR" property="columnDefault"/>
+        <result column="extra" jdbcType="VARCHAR" property="extra"/>
+        <result column="nullAble" jdbcType="VARCHAR" property="nullAble"/>
+        <result column="columnSize" jdbcType="VARCHAR" property="columnSize"/>
+    </resultMap>
+
+    <select id="queryColumns" resultMap="BaseResultMap">
+	  select column_name columnName,
+             data_type dataType,
+             column_type columnType,
+			 CHARACTER_MAXIMUM_LENGTH columnSize,
+             IFNULL(column_default,'NULL') columnDefault,
+             column_comment columnComment,
+             column_key columnKey,
+             extra, IS_NULLABLE nullAble
+		from information_schema.columns
+        where table_name = #{tableName}
+	   order by ordinal_position
+	</select>
+</mapper>
