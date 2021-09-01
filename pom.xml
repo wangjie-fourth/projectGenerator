@@ -6,7 +6,7 @@
 
     <groupId>io.github.wangjie-fourth</groupId>
     <artifactId>projectGenerator-maven-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>maven-plugin</packaging>
 
     <name>Project Generator</name>
@@ -25,6 +25,18 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <scm>
         <connection>scm:git:https://github.com/wangjie-fourth/projectGenerator.git</connection>
         <developerConnection>scm:git:git@github.com:wangjie-fourth/projectGenerator.git</developerConnection>
@@ -155,13 +167,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.puppycrawl.tools</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>8.29</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <!--代码缺陷检查工具-->
@@ -232,6 +237,24 @@
                                     </limits>
                                 </rule>
                             </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <keyname>40F5A6241C60EC549A369C51FDF1BC3484E061B8</keyname>
+                            <passphraseServerId>40F5A6241C60EC549A369C51FDF1BC3484E061B8</passphraseServerId>
                         </configuration>
                     </execution>
                 </executions>

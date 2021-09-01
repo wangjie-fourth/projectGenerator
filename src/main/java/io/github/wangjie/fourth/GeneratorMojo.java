@@ -10,7 +10,6 @@ import io.github.wangjie.fourth.model.config.TableConfig;
 import io.github.wangjie.fourth.model.dto.JavaDTO;
 import io.github.wangjie.fourth.context.GeneratorContext;
 import io.github.wangjie.fourth.generator.GeneratorService;
-import com.wangjie.generator.impl.*;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.AbstractMojo;
